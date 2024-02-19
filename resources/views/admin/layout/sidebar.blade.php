@@ -13,26 +13,31 @@
                     <span>Dashboard</span></a></li>
 
             <li class="nav-item dropdown active">
-                <a href="#" class="nav-link has-dropdown"><i class="fas fa-hand-point-right"></i><span>Page Settings</span></a>
+                <a href="#" class="nav-link has-dropdown"><i class="fas fa-hand-point-right"></i><span>Page
+                        Settings</span></a>
                 <ul class="dropdown-menu">
-                    <li class="active"><a class="nav-link" href="{{ route('admin_home_page') }}"><i class="fas fa-angle-right"></i> Home </a>
+                    <li class="active"><a class="nav-link" href="{{ route('admin_home_page') }}"><i
+                                class="fas fa-angle-right"></i> Home </a>
                     </li>
                     <li class=""><a class="nav-link" href=""><i class="fas fa-angle-right"></i> Terms</a>
                     </li>
                 </ul>
             </li>
 
-            <li class=""><a class="nav-link" href="setting.html"><i class="fas fa-hand-point-right"></i>
-                    <span>Setting</span></a></li>
+            <li class="nav-item dropdown active">
+                <a href="#" class="nav-link has-dropdown"><i class="fas fa-hand-point-right"></i><span>Job
+                        Section</span></a>
+                <ul class="dropdown-menu">
+                    <li class="active"><a class="nav-link" href="{{ route('admin_job_category') }}"><i
+                                class="fas fa-angle-right"></i> Job Categories </a>
+                    </li>
+                    <li class=""><a class="nav-link" href=""><i class="fas fa-angle-right"></i> Job Location</a>
+                    </li>
+                </ul>
+            </li>
 
-            <li class=""><a class="nav-link" href="form.html"><i class="fas fa-hand-point-right"></i>
-                    <span>Form</span></a></li>
-
-            <li class=""><a class="nav-link" href="table.html"><i class="fas fa-hand-point-right"></i>
-                    <span>Table</span></a></li>
-
-            <li class=""><a class="nav-link" href="invoice.html"><i class="fas fa-hand-point-right"></i>
-                    <span>Invoice</span></a></li>
+            {{-- <li class=""><a class="nav-link" href="setting.html"><i class="fas fa-hand-point-right"></i>
+                    <span>Setting</span></a></li> --}}
 
         </ul>
     </aside>

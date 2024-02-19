@@ -6,7 +6,9 @@ use App\Http\Controllers\Admin\AdminHomeController;
 use App\Http\Controllers\Admin\AdminLoginController;
 use App\Http\Controllers\Admin\AdminProfileController;
 use App\Http\Controllers\Admin\AdminHomePageController;
+use App\Http\Controllers\Admin\AdminJobCategoryController;
 use App\Http\Controllers\Front\TermsController;
+
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('terms', [TermsController::class, 'index'])->name('terms');
@@ -24,10 +26,14 @@ Route::post('/admin/reset-password-submit', [AdminLoginController::class, 'reset
 
 
 /* Admin Middleware */
-Route::middleware(['admin:admin'])->group(function() {
+Route::middleware(['admin:admin'])->group(function () {
     Route::get('/admin/home', [AdminHomeController::class, 'index'])->name('admin_home');
     Route::get('/admin/edit-profile', [AdminProfileController::class, 'index'])->name('admin_profile');
     Route::post('/admin/edit-profile-submit', [AdminProfileController::class, 'profile_submit'])->name('admin_profile_submit');
     Route::get('/admin/home-page', [AdminHomePageController::class, 'index'])->name('admin_home_page');
     Route::post('/admin/home-page/update', [AdminHomePageController::class, 'update'])->name('admin_home_page_update');
+
+    Route::get('/admin/job-category/view', [AdminJobCategoryController::class, 'index'])->name('admin_job_category');
+    Route::get('/admin/job-category/create', [AdminJobCategoryController::class, 'create'])->name('admin_job_category_create');
+
 });
