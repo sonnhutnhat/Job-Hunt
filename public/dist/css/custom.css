@@ -406,3 +406,13 @@ hr.invoice-above-table {
 .tox .tox-notification {
     display: none !important;
 }
+
+.custom-tab .nav-pills .nav-link{
+    background: #d7e3f9;
+    margin-bottom: 5px;
+}
+
+.custom-tab .nav-pills .nav-link.active {
+    color: #fff !important;
+    background-color: #6777ef !important;
+}
