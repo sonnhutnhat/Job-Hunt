@@ -1,6 +1,6 @@
 @extends('admin.layout.app')
 
-@section('heading', 'Create Job Category')
+@section('heading', 'Edit Job Category')
 
 @section('button')
     <div>
@@ -14,18 +14,26 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{ route('admin_job_category_store') }}" method="post">
+                        <form action="{{ route('admin_job_category_update', $job_category_single->id) }}" method="post">
                             @csrf
                             <div class="form-group mb-3">
                                 <label>Category Name *</label>
-                                <input type="text" class="form-control" name="name">
+                                <input type="text" class="form-control" name="name"
+                                    value="{{ $job_category_single->name }}">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label>Icon Preview</label>
+                                <div>
+                                    <i class="{{ $job_category_single->icon }}"></i>
+                                </div>
                             </div>
                             <div class="form-group mb-3">
                                 <label>Category Icon *</label>
-                                <input type="text" class="form-control" name="icon">
+                                <input type="text" class="form-control" name="icon"
+                                    value="{{ $job_category_single->icon }}">
                             </div>
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" class="btn btn-primary">Update</button>
                             </div>
                         </form>
                     </div>
