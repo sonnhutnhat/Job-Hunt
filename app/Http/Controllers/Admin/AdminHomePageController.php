@@ -25,6 +25,10 @@ class AdminHomePageController extends Controller
             'job_category' => 'required',
             'job_location' => 'required',
             'search' => 'required',
+            'job_category_heading' => 'required',
+            'job_category_status' => 'required',
+            'why_choose_heading' => 'required',
+            'why_choose_status' => 'required',
             
         ]);
 
@@ -43,6 +47,21 @@ class AdminHomePageController extends Controller
             $home_page_data->background = $final_name;
         }
 
+        if($request->hasFile('why_choose_background')) {
+            $request->validate([
+                'why_choose_background' => 'image|mimes:jpg,jpeg,png,gif'
+            ]);
+
+            unlink(public_path('uploads/'.$home_page_data->why_choose_background));
+
+            $ext1 = $request->file('why_choose_background')->extension();
+            $final_name1 = 'why_choose_home_background'.'.'.$ext1;
+
+            $request->file('why_choose_background')->move(public_path('uploads/'),$final_name1);
+
+            $home_page_data->why_choose_background = $final_name1;
+        }
+
         
 
         $home_page_data->heading = $request->heading;
@@ -52,7 +71,14 @@ class AdminHomePageController extends Controller
         $home_page_data->job_location = $request->job_location;
         $home_page_data->search = $request->search;
 
-        
+        $home_page_data->job_category_heading = $request->job_category_heading;
+        $home_page_data->job_category_subheading = $request->job_category_subheading;
+        $home_page_data->job_category_status = $request->job_category_status;
+
+        $home_page_data->why_choose_heading = $request->why_choose_heading;
+        $home_page_data->why_choose_subheading = $request->why_choose_subheading;
+        $home_page_data->why_choose_status = $request->why_choose_status;
+
 
         $home_page_data->update();
 

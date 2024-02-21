@@ -2,16 +2,22 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Front\HomeController;
+use App\Http\Controllers\Front\TermsController;
+use App\Http\Controllers\Front\JobCategoryController;
+
 use App\Http\Controllers\Admin\AdminHomeController;
 use App\Http\Controllers\Admin\AdminLoginController;
 use App\Http\Controllers\Admin\AdminProfileController;
 use App\Http\Controllers\Admin\AdminHomePageController;
 use App\Http\Controllers\Admin\AdminJobCategoryController;
-use App\Http\Controllers\Front\TermsController;
+use App\Http\Controllers\Admin\AdminWhyChooseController;
+
+
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('terms', [TermsController::class, 'index'])->name('terms');
+Route::get('job-categories', [JobCategoryController::class, 'categories'])->name('job_categories');
 
 
 
@@ -40,4 +46,10 @@ Route::middleware(['admin:admin'])->group(function () {
     Route::post('/admin/job-category/update/{id}', [AdminJobCategoryController::class, 'update'])->name('admin_job_category_update');
     Route::get('/admin/job-category/delete/{id}', [AdminJobCategoryController::class, 'delete'])->name('admin_job_category_delete');
 
+    Route::get('/admin/why-choose/view', [AdminWhyChooseController::class, 'index'])->name('admin_why_choose_item');
+    Route::get('/admin/why-choose/create', [AdminWhyChooseController::class, 'create'])->name('admin_why_choose_item_create');
+    Route::post('/admin/why-choose/store', [AdminWhyChooseController::class, 'store'])->name('admin_why_choose_item_store');
+    Route::get('/admin/why-choose/edit/{id}', [AdminWhyChooseController::class, 'edit'])->name('admin_why_choose_item_edit');
+    Route::post('/admin/why-choose/update/{id}', [AdminWhyChooseController::class, 'update'])->name('admin_why_choose_item_update');
+    Route::get('/admin/why-choose/delete/{id}', [AdminWhyChooseController::class, 'delete'])->name('admin_why_choose_item_delete');
 });
