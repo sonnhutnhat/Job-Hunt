@@ -185,6 +185,81 @@
                                             </div>
                                             <!-- Why Choose Section End -->
                                         </div>
+
+                                        <div class="tab-pane fade" id="v-pills-4" role="tabpanel"
+                                            aria-labelledby="v-pills-4-tab" tabindex="0">
+                                            <!-- Featured Jobs Section Start -->
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="mb-4">
+                                                        <label class="form-label">Heading *</label>
+                                                        <input type="text" class="form-control"
+                                                            name="featured_jobs_heading"
+                                                            value="{{ $page_home_data->featured_jobs_heading }}">
+                                                    </div>
+                                                    <div class="mb-4">
+                                                        <label class="form-label">Sub Heading</label>
+                                                        <input type="text" class="form-control"
+                                                            name="featured_jobs_subheading"
+                                                            value="{{ $page_home_data->featured_jobs_subheading }}">
+                                                    </div>
+                                                    <div class="mb-4">
+                                                        <label class="form-label">Status *</label>
+                                                        <select name="featured_jobs_status" class="form-control select2">
+                                                            <option value="Show"
+                                                                @if ($page_home_data->featured_jobs_status == 'Show') selected @endif>Show
+                                                            </option>
+                                                            <option value="Hide"
+                                                                @if ($page_home_data->featured_jobs_status == 'Hide') selected @endif>Hide
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Featured Jobs Section End -->
+                                        </div>
+
+                                        <div class="tab-pane fade" id="v-pills-5" role="tabpanel"
+                                            aria-labelledby="v-pills-5-tab" tabindex="0">
+                                            <!-- Testimonial Section Start -->
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="mb-4">
+                                                        <label class="form-label">Heading *</label>
+                                                        <input type="text" class="form-control"
+                                                            name="testimonial_heading"
+                                                            value="{{ $page_home_data->testimonial_heading }}">
+                                                    </div>
+                                                    <div class="mb-4">
+                                                        <label class="form-label">Existing Background *</label>
+                                                        <div>
+                                                            <img src="{{ asset('uploads/' . $page_home_data->testimonial_background) }}"
+                                                                alt="" class="w_300">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-4">
+                                                        <label class="form-label">Change Background *</label>
+                                                        <div>
+                                                            <input type="file" class="form-control mt_10"
+                                                                name="testimonial_background">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-4">
+                                                        <label class="form-label">Status *</label>
+                                                        <select name="testimonial_status" class="form-control select2">
+                                                            <option value="Show"
+                                                                @if ($page_home_data->testimonial_status == 'Show') selected @endif>Show
+                                                            </option>
+                                                            <option value="Hide"
+                                                                @if ($page_home_data->testimonial_status == 'Hide') selected @endif>Hide
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Testimonial Section End -->
+                                        </div>
+                                        
                                     </div>
                                     <div class="mb-4">
                                         <label class="form-label"></label>

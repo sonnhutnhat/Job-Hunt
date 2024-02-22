@@ -43,6 +43,13 @@
                     href="{{ route('admin_why_choose_item') }}" data-bs-toggle="tooltip" data-bs-placement="right"
                     data-bs-title="Why Choose Items"><i class="fas fa-hand-point-right"></i> <span>Why Choose
                         Items</span></a></li>
+            <li class="{{ Request::is('admin/testimonial/*') ? 'active' : '' }}"><a class="nav-link"
+                    href="{{ route('admin_testimonial') }}" data-bs-toggle="tooltip" data-bs-placement="right"
+                    data-bs-title="Testimonails"><i class="fas fa-hand-point-right"></i> <span>Testimonials</span></a>
+            </li>
+            <li class="{{ Request::is('admin/post/*') ? 'active' : '' }}"><a class="nav-link"
+                    href="{{ route('admin_post') }}" data-bs-toggle="tooltip" data-bs-placement="right"
+                    data-bs-title="Posts"><i class="fas fa-hand-point-right"></i> <span>Posts</span></a></li>
 
         </ul>
     </aside>
