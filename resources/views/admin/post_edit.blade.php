@@ -30,7 +30,7 @@
                         </div>
                         <div class="form-group mb-3">
                             <label>Heading *</label>
-                            <input type="text" class="form-control" name="title" value="{{ $post_single->title }}">
+                            <input type="text" class="form-control" name="heading" value="{{ $post_single->heading }}">
                         </div>
                         <div class="form-group mb-3">
                             <label>Slug *</label>

@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\AdminLoginController;
 use App\Http\Controllers\Admin\AdminProfileController;
 use App\Http\Controllers\Admin\AdminHomePageController;
 use App\Http\Controllers\Admin\AdminFaqPageController;
+use App\Http\Controllers\Admin\AdminBlogPageController;
 use App\Http\Controllers\Admin\AdminJobCategoryController;
 use App\Http\Controllers\Admin\AdminWhyChooseController;
 use App\Http\Controllers\Admin\AdminTestimonialController;
@@ -52,6 +53,9 @@ Route::middleware(['admin:admin'])->group(function () {
     Route::get('/admin/faq-page', [AdminFaqPageController::class, 'index'])->name('admin_faq_page');
     Route::post('/admin/faq-page/update', [AdminFaqPageController::class, 'update'])->name('admin_faq_page_update');
 
+    Route::get('/admin/blog-page', [AdminBlogPageController::class, 'index'])->name('admin_blog_page');
+    Route::post('/admin/blog-page/update', [AdminBlogPageController::class, 'update'])->name('admin_blog_page_update');
+
     Route::get('/admin/job-category/view', [AdminJobCategoryController::class, 'index'])->name('admin_job_category');
     Route::get('/admin/job-category/create', [AdminJobCategoryController::class, 'create'])->name('admin_job_category_create');
     Route::post('/admin/job-category/store', [AdminJobCategoryController::class, 'store'])->name('admin_job_category_store');
@@ -86,4 +90,6 @@ Route::middleware(['admin:admin'])->group(function () {
     Route::get('/admin/faq/edit/{id}', [AdminFaqController::class, 'edit'])->name('admin_faq_edit');
     Route::post('/admin/faq/update/{id}', [AdminFaqController::class, 'update'])->name('admin_faq_update');
     Route::get('/admin/faq/delete/{id}', [AdminFaqController::class, 'delete'])->name('admin_faq_delete');
+
+    
 });

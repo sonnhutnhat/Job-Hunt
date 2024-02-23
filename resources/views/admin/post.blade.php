@@ -20,7 +20,7 @@
                             <tr>
                                 <th>SL</th>
                                 <th>Photo</th>
-                                <th>Title</th>
+                                <th>Heading</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
