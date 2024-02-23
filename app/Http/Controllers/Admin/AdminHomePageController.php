@@ -10,14 +10,14 @@ class AdminHomePageController extends Controller
 {
     public function index()
     {
-        $page_home_data = PageHomeItem::where('id',1)->first();
+        $page_home_data = PageHomeItem::where('id', 1)->first();
         return view('admin.page_home', compact('page_home_data'));
     }
 
-    public function update(Request $request) 
+    public function update(Request $request)
     {
 
-        $home_page_data = PageHomeItem::where('id',1)->first();
+        $home_page_data = PageHomeItem::where('id', 1)->first();
 
         $request->validate([
             'heading' => 'required',
@@ -33,49 +33,51 @@ class AdminHomePageController extends Controller
             'featured_jobs_status' => 'required',
             'testimonial_heading' => 'required',
             'testimonial_status' => 'required',
+            'blog_heading' => 'required',
+            'blog_status' => 'required'
         ]);
 
-        if($request->hasFile('background')) {
+        if ($request->hasFile('background')) {
             $request->validate([
                 'background' => 'image|mimes:jpg,jpeg,png,gif'
             ]);
 
-            unlink(public_path('uploads/'.$home_page_data->background));
+            unlink(public_path('uploads/' . $home_page_data->background));
 
             $ext = $request->file('background')->extension();
-            $final_name = 'banner_home'.'.'.$ext;
+            $final_name = 'banner_home' . '.' . $ext;
 
-            $request->file('background')->move(public_path('uploads/'),$final_name);
+            $request->file('background')->move(public_path('uploads/'), $final_name);
 
             $home_page_data->background = $final_name;
         }
 
-        if($request->hasFile('why_choose_background')) {
+        if ($request->hasFile('why_choose_background')) {
             $request->validate([
                 'why_choose_background' => 'image|mimes:jpg,jpeg,png,gif'
             ]);
 
-            unlink(public_path('uploads/'.$home_page_data->why_choose_background));
+            unlink(public_path('uploads/' . $home_page_data->why_choose_background));
 
             $ext1 = $request->file('why_choose_background')->extension();
-            $final_name1 = 'why_choose_home_background'.'.'.$ext1;
+            $final_name1 = 'why_choose_home_background' . '.' . $ext1;
 
-            $request->file('why_choose_background')->move(public_path('uploads/'),$final_name1);
+            $request->file('why_choose_background')->move(public_path('uploads/'), $final_name1);
 
             $home_page_data->why_choose_background = $final_name1;
         }
 
-        if($request->hasFile('testimonial_background')) {
+        if ($request->hasFile('testimonial_background')) {
             $request->validate([
                 'testimonial_background' => 'image|mimes:jpg,jpeg,png,gif'
             ]);
 
-            unlink(public_path('uploads/'.$home_page_data->testimonial_background));
+            unlink(public_path('uploads/' . $home_page_data->testimonial_background));
 
             $ext1 = $request->file('testimonial_background')->extension();
-            $final_name1 = 'testimonial_home_background'.'.'.$ext1;
+            $final_name1 = 'testimonial_home_background' . '.' . $ext1;
 
-            $request->file('testimonial_background')->move(public_path('uploads/'),$final_name1);
+            $request->file('testimonial_background')->move(public_path('uploads/'), $final_name1);
 
             $home_page_data->testimonial_background = $final_name1;
         }
@@ -101,7 +103,14 @@ class AdminHomePageController extends Controller
 
         $home_page_data->testimonial_heading = $request->testimonial_heading;
         $home_page_data->testimonial_status = $request->testimonial_status;
-        
+
+        $home_page_data->blog_heading = $request->blog_heading;
+        $home_page_data->blog_subheading = $request->blog_subheading;
+        $home_page_data->blog_status = $request->blog_status;
+
+        $home_page_data->title = $request->title;
+        $home_page_data->meta_description = $request->meta_description;
+
         $home_page_data->update();
 
         return redirect()->back()->with('success', 'Data is updated successfully.');

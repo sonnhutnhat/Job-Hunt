@@ -259,7 +259,56 @@
                                             </div>
                                             <!-- Testimonial Section End -->
                                         </div>
-                                        
+
+                                        <div class="tab-pane fade" id="v-pills-6" role="tabpanel"
+                                            aria-labelledby="v-pills-6-tab" tabindex="0">
+                                            <!-- Blog Section Start -->
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="mb-4">
+                                                        <label class="form-label">Heading *</label>
+                                                        <input type="text" class="form-control" name="blog_heading"
+                                                            value="{{ $page_home_data->blog_heading }}">
+                                                    </div>
+                                                    <div class="mb-4">
+                                                        <label class="form-label">Sub Heading</label>
+                                                        <input type="text" class="form-control" name="blog_subheading"
+                                                            value="{{ $page_home_data->blog_subheading }}">
+                                                    </div>
+                                                    <div class="mb-4">
+                                                        <label class="form-label">Status *</label>
+                                                        <select name="blog_status" class="form-control select2">
+                                                            <option value="Show"
+                                                                @if ($page_home_data->blog_status == 'Show') selected @endif>Show
+                                                            </option>
+                                                            <option value="Hide"
+                                                                @if ($page_home_data->blog_status == 'Hide') selected @endif>Hide
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Blog Section End -->
+                                        </div>
+
+                                        <div class="tab-pane fade" id="v-pills-7" role="tabpanel"
+                                            aria-labelledby="v-pills-7-tab" tabindex="0">
+                                            <!-- SEO Section Start -->
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="mb-4">
+                                                        <label class="form-label">Title</label>
+                                                        <input type="text" class="form-control" name="title"
+                                                            value="{{ $page_home_data->title }}">
+                                                    </div>
+                                                    <div class="mb-4">
+                                                        <label class="form-label">Meta Description</label>
+                                                        <textarea name="meta_description" class="form-control h_100" cols="30" rows="10">{{ $page_home_data->meta_description }}</textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- SEO Section End -->
+                                        </div>
                                     </div>
                                     <div class="mb-4">
                                         <label class="form-label"></label>

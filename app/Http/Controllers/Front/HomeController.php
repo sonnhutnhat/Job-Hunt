@@ -8,6 +8,8 @@ use App\Models\PageHomeItem;
 use App\Models\JobCategory;
 use App\Models\WhyChooseItem;
 use App\Models\Testimonial;
+use App\Models\Post;
+
 
 class HomeController extends Controller
 {
@@ -17,7 +19,8 @@ class HomeController extends Controller
         $job_categories = JobCategory::orderBy('name', 'asc')->take(9)->get();
         $why_choose_items = WhyChooseItem::get();
         $testimonials = Testimonial::get();
+        $posts = Post::orderBy('id','desc')->take(3)->get();
 
-        return view('front.home', compact('home_page_data', 'job_categories', 'why_choose_items', 'testimonials'));
+        return view('front.home', compact('home_page_data', 'job_categories', 'why_choose_items', 'testimonials', 'posts'));
     }
 }

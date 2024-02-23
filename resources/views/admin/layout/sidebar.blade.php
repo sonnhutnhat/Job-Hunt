@@ -20,8 +20,8 @@
                     <li class="{{ Request::is('admin/home-page') ? 'active' : '' }}"><a class="nav-link"
                             href="{{ route('admin_home_page') }}"><i class="fas fa-angle-right"></i> Home </a>
                     </li>
-                    <li class=""><a class="nav-link" href=""><i class="fas fa-angle-right"></i> Terms</a>
-                    </li>
+                    <li class="{{ Request::is('admin/faq-page') ? 'active' : '' }}"><a class="nav-link"
+                            href="{{ route('admin_faq_page') }}"><i class="fas fa-angle-right"></i> FAQ</a></li>
                 </ul>
             </li>
 
@@ -50,7 +50,9 @@
             <li class="{{ Request::is('admin/post/*') ? 'active' : '' }}"><a class="nav-link"
                     href="{{ route('admin_post') }}" data-bs-toggle="tooltip" data-bs-placement="right"
                     data-bs-title="Posts"><i class="fas fa-hand-point-right"></i> <span>Posts</span></a></li>
-
+            <li class="{{ Request::is('admin/faq/*') ? 'active' : '' }}"><a class="nav-link"
+                    href="{{ route('admin_faq') }}" data-bs-toggle="tooltip" data-bs-placement="right"
+                    data-bs-title="FAQs"><i class="fas fa-hand-point-right"></i> <span>FAQ</span></a></li>
         </ul>
     </aside>
 </div>
