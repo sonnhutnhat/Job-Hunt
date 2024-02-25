@@ -25,18 +25,19 @@
                         <li class="nav-item">
                             <a href="companies.html" class="nav-link">Companies</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="pricing.html" class="nav-link">Pricing</a>
+                        <li class="nav-item {{ Request::is('pricing') ? 'active' : '' }}">
+                            <a href="{{ route('pricing') }}" class="nav-link">Pricing</a>
                         </li>
                         <li class="nav-item {{ Request::is('faq') ? 'active' : '' }}">
                             <a href="{{ route('faq') }}" class="nav-link">FAQ</a>
                         </li>
+
                         <li class="nav-item {{ Request::is('blog')||Request::is('post/*') ? 'active' : '' }}">
                             <a href="{{ route('blog') }}" class="nav-link">Blog</a>
                         </li>
 
-                        <li class="nav-item {{ Request::is('terms') ? 'active' : '' }}">
-                            <a href="{{ route('terms') }}" class="nav-link">Contact</a>
+                        <li class="nav-item {{ Request::is('contact') ? 'active' : '' }}">
+                            <a href="{{ route('contact') }}" class="nav-link">Contact</a>
                         </li>
                     </ul>
                 </div>

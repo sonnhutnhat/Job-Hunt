@@ -34,7 +34,8 @@ class AdminHomePageController extends Controller
             'testimonial_heading' => 'required',
             'testimonial_status' => 'required',
             'blog_heading' => 'required',
-            'blog_status' => 'required'
+            'blog_status' => 'required',
+            
         ]);
 
         if ($request->hasFile('background')) {

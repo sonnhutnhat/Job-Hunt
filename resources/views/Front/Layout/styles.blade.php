@@ -8,4 +8,5 @@
 <link rel="stylesheet" href="{{ asset('dist-front/css/all.css') }}" />
 <link rel="stylesheet" href="{{ asset('dist-front/css/meanmenu.css') }}" />
 <link rel="stylesheet" href="{{ asset('dist-front/css/spacing.css') }}" />
+<link rel="stylesheet" href="{{ asset('dist-front/css/iziToast.min.css') }}">
 <link rel="stylesheet" href="{{ asset('dist-front/css/style.css') }}" />

@@ -309,6 +309,25 @@
                                             </div>
                                             <!-- SEO Section End -->
                                         </div>
+
+                                        <div class="tab-pane fade" id="v-pills-7" role="tabpanel"
+                                            aria-labelledby="v-pills-7-tab" tabindex="0">
+                                            <!-- SEO Section Start -->
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="mb-4">
+                                                        <label class="form-label">Title</label>
+                                                        <input type="text" class="form-control" name="title"
+                                                            value="{{ $page_home_data->title }}">
+                                                    </div>
+                                                    <div class="mb-4">
+                                                        <label class="form-label">Meta Description</label>
+                                                        <textarea name="meta_description" class="form-control h_100" cols="30" rows="10">{{ $page_home_data->meta_description }}</textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- SEO Section End -->
+                                        </div>
                                     </div>
                                     <div class="mb-4">
                                         <label class="form-label"></label>
