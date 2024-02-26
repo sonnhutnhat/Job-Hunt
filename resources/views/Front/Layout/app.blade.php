@@ -11,11 +11,11 @@
     <link rel="icon" type="image/png" href="{{ asset('uploads/favicon.png') }}" />
 
     <!-- All CSS -->
-    @include('Front.Layout.styles')
+    @include('front.layout.styles')
 
 
     <!-- All Javascripts -->
-    @include('Front.Layout.scripts')
+    @include('front.layout.scripts')
 
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 </head>
@@ -33,10 +33,10 @@
                 <div class="col-md-6 right-side">
                     <ul class="right">
                         <li class="menu">
-                            <a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a>
+                            <a href="{{ route('login') }}"><i class="fas fa-sign-in-alt"></i> Login</a>
                         </li>
                         <li class="menu">
-                            <a href="signup.html"><i class="fas fa-user"></i> Sign Up</a>
+                            <a href="{{ route('signup') }}"><i class="fas fa-user"></i> Sign Up</a>
                         </li>
                     </ul>
                 </div>
@@ -44,7 +44,7 @@
         </div>
     </div>
 
-    @include('Front.Layout.nav')
+    @include('front.layout.nav')
 
     @yield('main_content')
 
@@ -164,7 +164,7 @@
         <i class="fas fa-angle-up"></i>
     </div>
 
-    @include('Front.Layout.scripts_footer')
+    @include('front.layout.scripts_footer')
 
     @if ($errors->any())
         @foreach ($errors->all() as $error)
