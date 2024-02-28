@@ -2,20 +2,18 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <meta name="description" content="@yield('seo_meta_description')">
     <title>@yield('seo_title')</title>
 
     <link rel="icon" type="image/png" href="{{ asset('uploads/favicon.png') }}" />
 
-    <!-- All CSS -->
     @include('front.layout.styles')
 
-
-    <!-- All Javascripts -->
     @include('front.layout.scripts')
+
 
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 </head>
@@ -27,17 +25,29 @@
                 <div class="col-md-6 left-side">
                     <ul>
                         <li class="phone-text">111-222-3333</li>
-                        <li class="email-text">nguyenkienson3010@gmail.com</li>
+                        <li class="email-text">contact@arefindev.com</li>
                     </ul>
                 </div>
                 <div class="col-md-6 right-side">
                     <ul class="right">
-                        <li class="menu">
-                            <a href="{{ route('login') }}"><i class="fas fa-sign-in-alt"></i> Login</a>
-                        </li>
-                        <li class="menu">
-                            <a href="{{ route('signup') }}"><i class="fas fa-user"></i> Sign Up</a>
-                        </li>
+                        @if (Auth::guard('company')->check())
+                            <li class="menu">
+                                <a href="{{ route('company_dashboard') }}">
+                                    <i class="fas fa-home"></i> Dashboard
+                                </a>
+                            </li>
+                        @else
+                            <li class="menu">
+                                <a href="{{ route('login') }}">
+                                    <i class="fas fa-sign-in-alt"></i> Login
+                                </a>
+                            </li>
+                            <li class="menu">
+                                <a href="{{ route('signup') }}">
+                                    <i class="fas fa-user"></i> Sign Up
+                                </a>
+                            </li>
+                        @endif
                     </ul>
                 </div>
             </div>
@@ -47,6 +57,11 @@
     @include('front.layout.nav')
 
     @yield('main_content')
+
+
+
+    </div>
+    </div>
 
     <div class="footer">
         <div class="container">
@@ -198,44 +213,6 @@
         </script>
     @endif
 
-    <script>
-        (function($) {
-            $(".form_subscribe_ajax").on('submit', function(e) {
-                e.preventDefault();
-                var form = this;
-                $.ajax({
-                    url: $(form).attr('action'),
-                    method: $(form).attr('method'),
-                    data: new FormData(form),
-                    processData: false,
-                    dataType: 'json',
-                    contentType: false,
-                    beforeSend: function() {
-                        $(form).find('span.error-text').text('');
-                    },
-                    success: function(data) {
-                        if (data.code == 0) {
-                            $.each(data.error_message, function(prefix, val) {
-                                $(form).find('span.' + prefix + '_error').text(val[0]);
-                            });
-                        } else if (data.code == 2) {
-                            $.each(data.error_message_2, function(prefix, val) {
-                                $('.email_error').text(data.error_message_2);
-                            });
-                        } else if (data.code == 1) {
-                            $(form)[0].reset();
-                            iziToast.success({
-                                title: '',
-                                position: 'topRight',
-                                message: data.success_message,
-                            });
-                        }
-
-                    }
-                });
-            });
-        })(jQuery);
-    </script>
 </body>
 
 </html>

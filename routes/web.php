@@ -34,6 +34,8 @@ use App\Http\Controllers\Admin\AdminFaqController;
 use App\Http\Controllers\Admin\AdminPackageController;
 use App\Http\Controllers\Admin\AdminOtherPageController;
 
+use App\Http\Controllers\Company\CompanyController;
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('terms-of-use', [TermsController::class, 'index'])->name('terms');
 Route::get('privacy-policy', [PrivacyController::class, 'index'])->name('privacy');
@@ -48,8 +50,23 @@ Route::get('login', [LoginController::class, 'index'])->name('login');
 Route::get('create-account', [SignupController::class, 'index'])->name('signup');
 Route::get('forget-password', [ForgetPasswordController::class, 'index'])->name('forget_password');
 
-Route::post('company-signup-submit', [SignupController::class, 'company_signup_submit'])->name('company_signup_submit');
+
+/* Company */
+Route::post('company_login_submit', [LoginController::class, 'company_login_submit'])->name('company_login_submit');
+Route::post('company_signup_submit', [SignupController::class, 'company_signup_submit'])->name('company_signup_submit');
 Route::get('company_signup_verify/{token}/{email}', [SignupController::class, 'company_signup_verify'])->name('company_signup_verify');
+Route::get('forget-password/company', [ForgetPasswordController::class, 'company_forget_password'])->name('company_forget_password');
+Route::post('forget-password/company/submit', [ForgetPasswordController::class, 'company_forget_password_submit'])->name('company_forget_password_submit');
+Route::get('reset-password/company/{token}/{email}', [ForgetPasswordController::class, 'company_reset_password'])->name('company_reset_password');
+Route::post('reset-password/company/submit', [ForgetPasswordController::class, 'company_reset_password_submit'])->name('company_reset_password_submit');
+Route::get('/company/logout', [LoginController::class, 'company_logout'])->name('company_logout');
+
+
+
+/* Company Middleware */
+Route::middleware(['company:company'])->group(function() {
+    Route::get('/company/dashboard', [CompanyController::class, 'dashboard'])->name('company_dashboard');
+});
 
 /* Admin */
 Route::get('/admin/login', [AdminLoginController::class, 'index'])->name('admin_login');
