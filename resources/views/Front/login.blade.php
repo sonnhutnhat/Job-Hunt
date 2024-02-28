@@ -63,7 +63,7 @@
                             aria-labelledby="pills-home-tab"
                             tabindex="0"
                         >
-                            <form action="" method="post">
+                            <form action="{{ route('candidate_login_submit') }}" method="post">
                             @csrf
                             <div class="mb-3">
                                 <label for="" class="form-label">Username</label>
@@ -77,7 +77,7 @@
                                 <button type="submit" class="btn btn-primary bg-website">
                                     Login
                                 </button>
-                                <a href="" class="primary-color">Forget Password?</a>
+                                <a href="{{ route('candidate_forget_password') }}" class="primary-color">Forget Password?</a>
                             </div>
                             </form>
                         </div>

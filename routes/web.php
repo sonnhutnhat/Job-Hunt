@@ -35,6 +35,7 @@ use App\Http\Controllers\Admin\AdminPackageController;
 use App\Http\Controllers\Admin\AdminOtherPageController;
 
 use App\Http\Controllers\Company\CompanyController;
+use App\Http\Controllers\Candidate\CandidateController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('terms-of-use', [TermsController::class, 'index'])->name('terms');
@@ -67,6 +68,22 @@ Route::get('/company/logout', [LoginController::class, 'company_logout'])->name(
 Route::middleware(['company:company'])->group(function() {
     Route::get('/company/dashboard', [CompanyController::class, 'dashboard'])->name('company_dashboard');
 });
+
+/* Candidate */
+Route::post('candidate_login_submit', [LoginController::class, 'candidate_login_submit'])->name('candidate_login_submit');
+Route::post('candidate_signup_submit', [SignupController::class, 'candidate_signup_submit'])->name('candidate_signup_submit');
+Route::get('candidate_signup_verify/{token}/{email}', [SignupController::class, 'candidate_signup_verify'])->name('candidate_signup_verify');
+Route::get('/candidate/logout', [LoginController::class, 'candidate_logout'])->name('candidate_logout');
+Route::get('forget-password/candidate', [ForgetPasswordController::class, 'candidate_forget_password'])->name('candidate_forget_password');
+Route::post('forget-password/candidate/submit', [ForgetPasswordController::class, 'candidate_forget_password_submit'])->name('candidate_forget_password_submit');
+Route::get('reset-password/candidate/{token}/{email}', [ForgetPasswordController::class, 'candidate_reset_password'])->name('candidate_reset_password');
+Route::post('reset-password/candidate/submit', [ForgetPasswordController::class, 'candidate_reset_password_submit'])->name('candidate_reset_password_submit');
+
+/* Candidate Middleware */
+Route::middleware(['candidate:candidate'])->group(function() {
+    Route::get('/candidate/dashboard', [CandidateController::class, 'dashboard'])->name('candidate_dashboard');
+});
+
 
 /* Admin */
 Route::get('/admin/login', [AdminLoginController::class, 'index'])->name('admin_login');
