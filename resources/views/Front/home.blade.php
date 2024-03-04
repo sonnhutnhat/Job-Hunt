@@ -1,6 +1,11 @@
 @extends('front.layout.app')
-@section('seo_title'){{ $home_page_data->title }}@endsection
-@section('seo_meta_description'){{ $home_page_data->meta_description }}@endsection
+
+@section('seo_title')
+    {{ $home_page_data->title }}
+@endsection
+@section('seo_meta_description')
+    {{ $home_page_data->meta_description }}
+@endsection
 
 @section('main_content')
     <div class="slider" style="background-image: url({{ asset('uploads/' . $home_page_data->background) }})">
@@ -27,44 +32,20 @@
                                         </div>
                                         <div class="col-lg-3">
                                             <div class="form-group">
-                                                <select name="" class="form-select select2">
-                                                    <option value="">
-                                                        {{ $home_page_data->job_location }}
-                                                    </option>
-                                                    <option value="">
-                                                        Australia
-                                                    </option>
-                                                    <option value="">
-                                                        Bangladesh
-                                                    </option>
-                                                    <option value="">
-                                                        Canada
-                                                    </option>
-                                                    <option value="">
-                                                        China
-                                                    </option>
-                                                    <option value="">
-                                                        India
-                                                    </option>
-                                                    <option value="">
-                                                        United Kingdom
-                                                    </option>
-                                                    <option value="">
-                                                        United States
-                                                    </option>
+                                                <select name="category" class="form-select select2">
+                                                    <option value="">{{ $home_page_data->job_category }}</option>
+                                                    @foreach ($all_job_categories as $item)
+                                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-lg-3">
                                             <div class="form-group">
-                                                <select name="" class="form-select select2">
-                                                    <option value="">
-                                                        {{ $home_page_data->job_category }}
-                                                    </option>
-                                                    @foreach ($job_categories as $item)
-                                                        <option value="{{ $item->id }}">
-                                                            {{ $item->name }}
-                                                        </option>
+                                                <select name="location" class="form-select select2">
+                                                    <option value="">{{ $home_page_data->job_location }}</option>
+                                                    @foreach ($all_job_locations as $item)
+                                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -106,8 +87,8 @@
                                     <i class="{{ $item->icon }}"></i>
                                 </div>
                                 <h3>{{ $item->name }}</h3>
-                                <p>(5 Open Positions)</p>
-                                <a href=""></a>
+                                <p>({{ $item->r_job_count }} Open Positions)</p>
+                                <a href="{{ url('job-listing?category=' . $item->id) }}"></a>
                             </div>
                         </div>
                     @endforeach
@@ -138,7 +119,6 @@
                     </div>
                 </div>
                 <div class="row">
-
                     @foreach ($why_choose_items as $item)
                         <div class="col-md-4">
                             <div class="inner">
@@ -364,6 +344,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="testimonial-carousel owl-carousel">
+
                             @foreach ($testimonials as $item)
                                 <div class="item">
                                     <div class="photo">
@@ -387,7 +368,6 @@
         </div>
     @endif
 
-
     @if ($home_page_data->blog_status == 'Show')
         <div class="blog">
             <div class="container">
@@ -402,30 +382,31 @@
                     </div>
                 </div>
                 <div class="row">
-                    {{--  --}}
-                    @foreach($posts as $item)
-                    <div class="col-lg-4 col-md-6">
-                        <div class="item">
-                            <div class="photo">
-                                <img src="{{ asset('uploads/'.$item->photo) }}" alt="" />
-                            </div>
-                            <div class="text">
-                                <h2>
-                                    <a href="{{ route('post', $item->slug) }}">{{ $item->title }}</a>
-                                </h2>
-                                <div class="short-des">
-                                    <p>
-                                        {!! nl2br($item->title) !!}
-                                    </p>
+
+                    @foreach ($posts as $item)
+                        <div class="col-lg-4 col-md-6">
+                            <div class="item">
+                                <div class="photo">
+                                    <img src="{{ asset('uploads/' . $item->photo) }}" alt="" />
                                 </div>
-                                <div class="button">
-                                    <a href="{{ route('post', $item->slug) }}" class="btn btn-primary">Read More</a>
+                                <div class="text">
+                                    <h2>
+                                        <a href="{{ route('post', $item->slug) }}">{{ $item->title }}</a>
+                                    </h2>
+                                    <div class="short-des">
+                                        <p>
+                                            {!! nl2br($item->short_description) !!}
+                                        </p>
+                                    </div>
+                                    <div class="button">
+                                        <a href="{{ route('post', $item->slug) }}" class="btn btn-primary">Read More</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     @endforeach
-                    {{--  --}}
+
+
                 </div>
             </div>
         </div>
