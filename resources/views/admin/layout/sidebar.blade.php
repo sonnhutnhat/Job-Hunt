@@ -70,6 +70,23 @@
                 </ul>
             </li>
 
+            <li
+                class="nav-item dropdown {{ Request::is('admin/company-location/*') || Request::is('admin/company-industry/*') || Request::is('admin/company-size/*') ? 'active' : '' }}">
+                <a href="#" class="nav-link has-dropdown"><i class="fas fa-hand-point-right"></i><span>Company
+                        Section</span></a>
+                <ul class="dropdown-menu">
+                    <li class="{{ Request::is('admin/company-location/*') ? 'active' : '' }}"><a class="nav-link"
+                            href="{{ route('admin_company_location') }}"><i class="fas fa-angle-right"></i> Company
+                            Location</a></li>
+                    <li class="{{ Request::is('admin/company-industry/*') ? 'active' : '' }}"><a class="nav-link"
+                            href="{{ route('admin_company_industry') }}"><i class="fas fa-angle-right"></i> Company
+                            Industry</a></li>
+                    <li class="{{ Request::is('admin/company-size/*') ? 'active' : '' }}"><a class="nav-link"
+                            href="{{ route('admin_company_size') }}"><i class="fas fa-angle-right"></i> Company
+                            Size</a></li>
+                </ul>
+            </li>
+
             <li class="{{ Request::is('admin/why-choose/*') ? 'active' : '' }}"><a class="nav-link"
                     href="{{ route('admin_why_choose_item') }}" data-bs-toggle="tooltip" data-bs-placement="right"
                     data-bs-title="Why Choose Items"><i class="fas fa-hand-point-right"></i> <span>Why Choose
