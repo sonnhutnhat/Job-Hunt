@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Company;
 
 use Auth;
+use Hash;
 
 use App\Models\Job;
 use App\Models\Order;
@@ -96,6 +97,25 @@ class CompanyController extends Controller
 
         return redirect()->back()->with('success', 'Profile is updated successfully.');
 
+    }
+
+    public function edit_password()
+    {
+        return view('company.edit_password');
+    }
+
+    public function edit_password_update(Request $request)
+    {
+        $request->validate([
+            'password' => 'required',
+            'retype_password' => 'required|same:password'
+        ]);
+
+        $obj = Company::where('id',Auth::guard('company')->user()->id)->first();
+        $obj->password = Hash::make($request->password);
+        $obj->update();
+
+        return redirect()->back()->with('success', 'Password is updated successfully.');
     }
 
     public function photos()
