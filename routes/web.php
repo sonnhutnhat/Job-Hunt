@@ -100,6 +100,14 @@ Route::middleware(['company:company'])->group(function () {
     Route::get('/company/videos', [CompanyController::class, 'videos'])->name('company_videos');
     Route::post('/company/videos/submit', [CompanyController::class, 'videos_submit'])->name('company_videos_submit');
     Route::get('/company/videos/delete/{id}', [CompanyController::class, 'videos_delete'])->name('company_videos_delete');
+
+    Route::get('/company/create-job', [CompanyController::class, 'jobs_create'])->name('company_jobs_create');
+    Route::post('/company/create-job-submit', [CompanyController::class, 'jobs_create_submit'])->name('company_jobs_create_submit');
+
+    Route::get('/company/jobs', [CompanyController::class, 'jobs'])->name('company_jobs');
+    Route::get('/company/job-edit/{id}', [CompanyController::class, 'jobs_edit'])->name('company_jobs_edit');
+    Route::post('/company/job-update/{id}', [CompanyController::class, 'jobs_update'])->name('company_jobs_update');
+    Route::get('/company/job-delete/{id}', [CompanyController::class, 'jobs_delete'])->name('company_jobs_delete');
 });
 
 /* Candidate */
