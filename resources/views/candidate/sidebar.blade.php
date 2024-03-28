@@ -28,11 +28,11 @@
     <li class="list-group-item">
         <a href="candidate-award.html">Awards</a>
     </li>
-    <li class="list-group-item">
-        <a href="candidate-edit-profile.html"
-            >Edit Profile</a
-        >
+    <li class="list-group-item {{ Request::is('candidate/edit-profile') ? 'active' : '' }}">
+        <a href="{{ route('candidate_edit_profile') }}">Edit Profile</a>
     </li>
+    <li class="list-group-item {{ Request::is('candidate/edit-password') ? 'active' : '' }}">
+        <a href="{{ route('candidate_edit_password') }}">Edit Password</a>
     <li class="list-group-item">
         <a href="candidate-resume.html"
             >Resume Upload</a

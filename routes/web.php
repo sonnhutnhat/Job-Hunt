@@ -123,6 +123,11 @@ Route::post('reset-password/candidate/submit', [ForgetPasswordController::class,
 /* Candidate Middleware */
 Route::middleware(['candidate:candidate'])->group(function () {
     Route::get('/candidate/dashboard', [CandidateController::class, 'dashboard'])->name('candidate_dashboard');
+    
+    Route::get('/candidate/edit-profile', [CandidateController::class, 'edit_profile'])->name('candidate_edit_profile');
+    Route::post('/candidate/edit-profile/update', [CandidateController::class, 'edit_profile_update'])->name('candidate_edit_profile_update');
+    Route::get('/candidate/edit-password', [CandidateController::class, 'edit_password'])->name('candidate_edit_password');
+    Route::post('/candidate/edit-password/update', [CandidateController::class, 'edit_password_update'])->name('candidate_edit_password_update');
 });
 
 
