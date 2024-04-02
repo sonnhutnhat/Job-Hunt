@@ -128,6 +128,14 @@ Route::middleware(['candidate:candidate'])->group(function () {
     Route::post('/candidate/edit-profile/update', [CandidateController::class, 'edit_profile_update'])->name('candidate_edit_profile_update');
     Route::get('/candidate/edit-password', [CandidateController::class, 'edit_password'])->name('candidate_edit_password');
     Route::post('/candidate/edit-password/update', [CandidateController::class, 'edit_password_update'])->name('candidate_edit_password_update');
+
+    Route::get('/candidate/education/view', [CandidateController::class, 'education'])->name('candidate_education');
+    Route::get('/candidate/education/create', [CandidateController::class, 'education_create'])->name('candidate_education_create');
+    Route::post('/candidate/education/store', [CandidateController::class, 'education_store'])->name('candidate_education_store');
+    Route::get('/candidate/education/edit/{id}', [CandidateController::class, 'education_edit'])->name('candidate_education_edit');
+    Route::post('/candidate/education/update/{id}', [CandidateController::class, 'education_update'])->name('candidate_education_update');
+    Route::get('/candidate/education/delete/{id}', [CandidateController::class, 'education_delete'])->name('candidate_education_delete');
+
 });
 
 
