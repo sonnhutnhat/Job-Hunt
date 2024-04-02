@@ -136,6 +136,34 @@ Route::middleware(['candidate:candidate'])->group(function () {
     Route::post('/candidate/education/update/{id}', [CandidateController::class, 'education_update'])->name('candidate_education_update');
     Route::get('/candidate/education/delete/{id}', [CandidateController::class, 'education_delete'])->name('candidate_education_delete');
 
+    Route::get('/candidate/skill/view', [CandidateController::class, 'skill'])->name('candidate_skill');
+    Route::get('/candidate/skill/create', [CandidateController::class, 'skill_create'])->name('candidate_skill_create');
+    Route::post('/candidate/skill/store', [CandidateController::class, 'skill_store'])->name('candidate_skill_store');
+    Route::get('/candidate/skill/edit/{id}', [CandidateController::class, 'skill_edit'])->name('candidate_skill_edit');
+    Route::post('/candidate/skill/update/{id}', [CandidateController::class, 'skill_update'])->name('candidate_skill_update');
+    Route::get('/candidate/skill/delete/{id}', [CandidateController::class, 'skill_delete'])->name('candidate_skill_delete');
+
+    Route::get('/candidate/experience/view', [CandidateController::class, 'experience'])->name('candidate_experience');
+    Route::get('/candidate/experience/create', [CandidateController::class, 'experience_create'])->name('candidate_experience_create');
+    Route::post('/candidate/experience/store', [CandidateController::class, 'experience_store'])->name('candidate_experience_store');
+    Route::get('/candidate/experience/edit/{id}', [CandidateController::class, 'experience_edit'])->name('candidate_experience_edit');
+    Route::post('/candidate/experience/update/{id}', [CandidateController::class, 'experience_update'])->name('candidate_experience_update');
+    Route::get('/candidate/experience/delete/{id}', [CandidateController::class, 'experience_delete'])->name('candidate_experience_delete');
+
+    Route::get('/candidate/award/view', [CandidateController::class, 'award'])->name('candidate_award');
+    Route::get('/candidate/award/create', [CandidateController::class, 'award_create'])->name('candidate_award_create');
+    Route::post('/candidate/award/store', [CandidateController::class, 'award_store'])->name('candidate_award_store');
+    Route::get('/candidate/award/edit/{id}', [CandidateController::class, 'award_edit'])->name('candidate_award_edit');
+    Route::post('/candidate/award/update/{id}', [CandidateController::class, 'award_update'])->name('candidate_award_update');
+    Route::get('/candidate/award/delete/{id}', [CandidateController::class, 'award_delete'])->name('candidate_award_delete');
+
+    Route::get('/candidate/resume/view', [CandidateController::class, 'resume'])->name('candidate_resume');
+    Route::get('/candidate/resume/create', [CandidateController::class, 'resume_create'])->name('candidate_resume_create');
+    Route::post('/candidate/resume/store', [CandidateController::class, 'resume_store'])->name('candidate_resume_store');
+    Route::get('/candidate/resume/edit/{id}', [CandidateController::class, 'resume_edit'])->name('candidate_resume_edit');
+    Route::post('/candidate/resume/update/{id}', [CandidateController::class, 'resume_update'])->name('candidate_resume_update');
+    Route::get('/candidate/resume/delete/{id}', [CandidateController::class, 'resume_delete'])->name('candidate_resume_delete');
+
 });
 
 
