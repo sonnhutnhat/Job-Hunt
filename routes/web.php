@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\TermsController;
 use App\Http\Controllers\Front\JobCategoryController;
+use App\Http\Controllers\Front\JobListingController;
 use App\Http\Controllers\Front\PostController;
 use App\Http\Controllers\Front\FaqController;
 use App\Http\Controllers\Front\PrivacyController;
@@ -56,6 +57,11 @@ Route::get('faq', [FaqController::class, 'index'])->name('faq');
 Route::get('contact', [ContactController::class, 'index'])->name('contact');
 Route::post('contact/submit', [ContactController::class, 'submit'])->name('contact_submit');
 Route::get('pricing', [PricingController::class, 'index'])->name('pricing');
+
+Route::get('job-listing', [JobListingController::class, 'index'])->name('job_listing');
+Route::get('job-detail/{id}', [JobListingController::class, 'detail'])->name('job');
+Route::post('job-enquery/email', [JobListingController::class, 'send_email'])->name('job_enquery_send_email');
+
 Route::get('login', [LoginController::class, 'index'])->name('login');
 Route::get('create-account', [SignupController::class, 'index'])->name('signup');
 Route::get('forget-password', [ForgetPasswordController::class, 'index'])->name('forget_password');
@@ -123,7 +129,7 @@ Route::post('reset-password/candidate/submit', [ForgetPasswordController::class,
 /* Candidate Middleware */
 Route::middleware(['candidate:candidate'])->group(function () {
     Route::get('/candidate/dashboard', [CandidateController::class, 'dashboard'])->name('candidate_dashboard');
-    
+
     Route::get('/candidate/edit-profile', [CandidateController::class, 'edit_profile'])->name('candidate_edit_profile');
     Route::post('/candidate/edit-profile/update', [CandidateController::class, 'edit_profile_update'])->name('candidate_edit_profile_update');
     Route::get('/candidate/edit-password', [CandidateController::class, 'edit_password'])->name('candidate_edit_password');
@@ -163,7 +169,6 @@ Route::middleware(['candidate:candidate'])->group(function () {
     Route::get('/candidate/resume/edit/{id}', [CandidateController::class, 'resume_edit'])->name('candidate_resume_edit');
     Route::post('/candidate/resume/update/{id}', [CandidateController::class, 'resume_update'])->name('candidate_resume_update');
     Route::get('/candidate/resume/delete/{id}', [CandidateController::class, 'resume_delete'])->name('candidate_resume_delete');
-
 });
 
 
