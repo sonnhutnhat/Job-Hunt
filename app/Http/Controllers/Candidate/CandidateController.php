@@ -16,6 +16,7 @@ use App\Models\CandidateBookmark;
 use App\Models\CandidateEducation;
 use App\Models\CandidateExperience;
 use App\Http\Controllers\Controller;
+use App\Models\CandidateApplication;
 
 
 class CandidateController extends Controller
@@ -31,28 +32,28 @@ class CandidateController extends Controller
     }
     public function edit_profile_update(Request $request)
     {
-        $obj = Candidate::where('id',Auth::guard('candidate')->user()->id)->first();
+        $obj = Candidate::where('id', Auth::guard('candidate')->user()->id)->first();
         $id = $obj->id;
 
         $request->validate([
             'name' => 'required',
-            'username' => ['required','alpha_dash',Rule::unique('candidates')->ignore($id)],
-            'email' => ['required','email',Rule::unique('candidates')->ignore($id)],
+            'username' => ['required', 'alpha_dash', Rule::unique('candidates')->ignore($id)],
+            'email' => ['required', 'email', Rule::unique('candidates')->ignore($id)],
         ]);
 
-        if($request->hasFile('photo')) {
+        if ($request->hasFile('photo')) {
             $request->validate([
                 'photo' => 'image|mimes:jpg,jpeg,png,gif'
             ]);
 
-            if(Auth::guard('candidate')->user()->photo != '') {
-                unlink(public_path('uploads/'.$obj->photo));
+            if (Auth::guard('candidate')->user()->photo != '') {
+                unlink(public_path('uploads/' . $obj->photo));
             }
 
             $ext = $request->file('photo')->extension();
-            $final_name = 'candidate_photo_'.time().'.'.$ext;
+            $final_name = 'candidate_photo_' . time() . '.' . $ext;
 
-            $request->file('photo')->move(public_path('uploads/'),$final_name);
+            $request->file('photo')->move(public_path('uploads/'), $final_name);
 
             $obj->photo = $final_name;
         }
@@ -75,7 +76,6 @@ class CandidateController extends Controller
         $obj->update();
 
         return redirect()->back()->with('success', 'Profile is updated successfully.');
-
     }
 
     public function edit_password()
@@ -90,7 +90,7 @@ class CandidateController extends Controller
             'retype_password' => 'required|same:password'
         ]);
 
-        $obj = Candidate::where('id',Auth::guard('candidate')->user()->id)->first();
+        $obj = Candidate::where('id', Auth::guard('candidate')->user()->id)->first();
         $obj->password = Hash::make($request->password);
         $obj->update();
 
@@ -99,7 +99,7 @@ class CandidateController extends Controller
 
     public function education()
     {
-        $educations = CandidateEducation::where('candidate_id',Auth::guard('candidate')->user()->id)->orderBy('id','desc')->get();
+        $educations = CandidateEducation::where('candidate_id', Auth::guard('candidate')->user()->id)->orderBy('id', 'desc')->get();
         return view('candidate.education', compact('educations'));
     }
 
@@ -130,14 +130,14 @@ class CandidateController extends Controller
 
     public function education_edit($id)
     {
-        $education_single = CandidateEducation::where('id',$id)->first();
+        $education_single = CandidateEducation::where('id', $id)->first();
 
         return view('candidate.education_edit', compact('education_single'));
     }
 
     public function education_update(Request $request, $id)
     {
-        $obj = CandidateEducation::where('id',$id)->first();
+        $obj = CandidateEducation::where('id', $id)->first();
 
         $request->validate([
             'level' => 'required',
@@ -157,13 +157,13 @@ class CandidateController extends Controller
 
     public function education_delete($id)
     {
-        CandidateEducation::where('id',$id)->delete();
+        CandidateEducation::where('id', $id)->delete();
         return redirect()->route('candidate_education')->with('success', 'Education is deleted successfully.');
     }
 
     public function skill()
     {
-        $skills = CandidateSkill::where('candidate_id',Auth::guard('candidate')->user()->id)->get();
+        $skills = CandidateSkill::where('candidate_id', Auth::guard('candidate')->user()->id)->get();
         return view('candidate.skill', compact('skills'));
     }
 
@@ -190,14 +190,14 @@ class CandidateController extends Controller
 
     public function skill_edit($id)
     {
-        $skill_single = CandidateSkill::where('id',$id)->first();
+        $skill_single = CandidateSkill::where('id', $id)->first();
 
         return view('candidate.skill_edit', compact('skill_single'));
     }
 
     public function skill_update(Request $request, $id)
     {
-        $obj = CandidateSkill::where('id',$id)->first();
+        $obj = CandidateSkill::where('id', $id)->first();
 
         $request->validate([
             'name' => 'required',
@@ -213,13 +213,13 @@ class CandidateController extends Controller
 
     public function skill_delete($id)
     {
-        CandidateSkill::where('id',$id)->delete();
+        CandidateSkill::where('id', $id)->delete();
         return redirect()->route('candidate_skill')->with('success', 'Skill is deleted successfully.');
     }
 
     public function experience()
     {
-        $experiences = CandidateExperience::where('candidate_id',Auth::guard('candidate')->user()->id)->orderBy('id','desc')->get();
+        $experiences = CandidateExperience::where('candidate_id', Auth::guard('candidate')->user()->id)->orderBy('id', 'desc')->get();
         return view('candidate.experience', compact('experiences'));
     }
 
@@ -250,14 +250,14 @@ class CandidateController extends Controller
 
     public function experience_edit($id)
     {
-        $experience_single = CandidateExperience::where('id',$id)->first();
+        $experience_single = CandidateExperience::where('id', $id)->first();
 
         return view('candidate.experience_edit', compact('experience_single'));
     }
 
     public function experience_update(Request $request, $id)
     {
-        $obj = CandidateExperience::where('id',$id)->first();
+        $obj = CandidateExperience::where('id', $id)->first();
 
         $request->validate([
             'company' => 'required',
@@ -277,14 +277,14 @@ class CandidateController extends Controller
 
     public function experience_delete($id)
     {
-        CandidateExperience::where('id',$id)->delete();
+        CandidateExperience::where('id', $id)->delete();
         return redirect()->route('candidate_experience')->with('success', 'Experience is deleted successfully.');
     }
 
 
     public function award()
     {
-        $awards = CandidateAward::where('candidate_id',Auth::guard('candidate')->user()->id)->orderBy('id','desc')->get();
+        $awards = CandidateAward::where('candidate_id', Auth::guard('candidate')->user()->id)->orderBy('id', 'desc')->get();
         return view('candidate.award', compact('awards'));
     }
 
@@ -313,14 +313,14 @@ class CandidateController extends Controller
 
     public function award_edit($id)
     {
-        $award_single = CandidateAward::where('id',$id)->first();
+        $award_single = CandidateAward::where('id', $id)->first();
 
         return view('candidate.award_edit', compact('award_single'));
     }
 
     public function award_update(Request $request, $id)
     {
-        $obj = CandidateAward::where('id',$id)->first();
+        $obj = CandidateAward::where('id', $id)->first();
 
         $request->validate([
             'title' => 'required',
@@ -338,14 +338,14 @@ class CandidateController extends Controller
 
     public function award_delete($id)
     {
-        CandidateAward::where('id',$id)->delete();
+        CandidateAward::where('id', $id)->delete();
         return redirect()->route('candidate_award')->with('success', 'Award is deleted successfully.');
     }
 
 
     public function resume()
     {
-        $resumes = CandidateResume::where('candidate_id',Auth::guard('candidate')->user()->id)->get();
+        $resumes = CandidateResume::where('candidate_id', Auth::guard('candidate')->user()->id)->get();
         return view('candidate.resume', compact('resumes'));
     }
 
@@ -362,8 +362,8 @@ class CandidateController extends Controller
         ]);
 
         $ext = $request->file('file')->extension();
-        $final_name = 'resume_'.time().'.'.$ext;
-        $request->file('file')->move(public_path('uploads/'),$final_name);
+        $final_name = 'resume_' . time() . '.' . $ext;
+        $request->file('file')->move(public_path('uploads/'), $final_name);
 
         $obj = new CandidateResume();
         $obj->candidate_id = Auth::guard('candidate')->user()->id;
@@ -376,30 +376,30 @@ class CandidateController extends Controller
 
     public function resume_edit($id)
     {
-        $resume_single = CandidateResume::where('id',$id)->first();
+        $resume_single = CandidateResume::where('id', $id)->first();
 
         return view('candidate.resume_edit', compact('resume_single'));
     }
 
     public function resume_update(Request $request, $id)
     {
-        $obj = CandidateResume::where('id',$id)->first();
+        $obj = CandidateResume::where('id', $id)->first();
 
         $request->validate([
             'name' => 'required'
         ]);
 
-        if($request->hasFile('file')) {
+        if ($request->hasFile('file')) {
             $request->validate([
                 'file' => 'mimes:pdf,doc,docx'
             ]);
 
-            unlink(public_path('uploads/'.$obj->file));
+            unlink(public_path('uploads/' . $obj->file));
 
             $ext = $request->file('file')->extension();
-            $final_name = 'resume_'.time().'.'.$ext;
+            $final_name = 'resume_' . time() . '.' . $ext;
 
-            $request->file('file')->move(public_path('uploads/'),$final_name);
+            $request->file('file')->move(public_path('uploads/'), $final_name);
 
             $obj->file = $final_name;
         }
@@ -412,16 +412,16 @@ class CandidateController extends Controller
 
     public function resume_delete($id)
     {
-        $resume_single = CandidateResume::where('id',$id)->first();
-        unlink(public_path('uploads/'.$resume_single->file));
-        CandidateResume::where('id',$id)->delete();
+        $resume_single = CandidateResume::where('id', $id)->first();
+        unlink(public_path('uploads/' . $resume_single->file));
+        CandidateResume::where('id', $id)->delete();
         return redirect()->route('candidate_resume')->with('success', 'Resume is deleted successfully.');
     }
 
     public function bookmark_add($id)
     {
-        $existing_bookmark_check = CandidateBookmark::where('candidate_id',Auth::guard('candidate')->user()->id)->where('job_id',$id)->count();
-        if($existing_bookmark_check > 0) {
+        $existing_bookmark_check = CandidateBookmark::where('candidate_id', Auth::guard('candidate')->user()->id)->where('job_id', $id)->count();
+        if ($existing_bookmark_check > 0) {
             return redirect()->back()->with('error', 'This job is already added to the bookmark');
         }
 
@@ -435,15 +435,60 @@ class CandidateController extends Controller
 
     public function bookmark_view()
     {
-        $bookmarked_jobs = CandidateBookmark::with('rJob','rCandidate')->where('candidate_id',Auth::guard('candidate')->user()->id)->get();
+        $bookmarked_jobs = CandidateBookmark::with('rJob', 'rCandidate')->where('candidate_id', Auth::guard('candidate')->user()->id)->get();
 
         return view('candidate.bookmark', compact('bookmarked_jobs'));
     }
 
     public function bookmark_delete($id)
     {
-        CandidateBookmark::where('id',$id)->delete();
+        CandidateBookmark::where('id', $id)->delete();
 
         return redirect()->back()->with('success', 'Bookmark item is deleted successfully.');
+    }
+
+    public function apply($id)
+    {
+        $existing_apply_check = CandidateApplication::where('candidate_id', Auth::guard('candidate')->user()->id)->where('job_id', $id)->count();
+        if ($existing_apply_check > 0) {
+            return redirect()->back()->with('error', 'You already have applied on this job!');
+        }
+
+        $job_single = Job::where('id', $id)->first();
+
+        return view('candidate.apply', compact('job_single'));
+    }
+
+    public function apply_submit(Request $request, $id)
+    {
+        $request->validate([
+            'cover_letter' => 'required'
+        ]);
+
+        $obj = new CandidateApplication();
+        $obj->candidate_id = Auth::guard('candidate')->user()->id;
+        $obj->job_id = $id;
+        $obj->cover_letter = $request->cover_letter;
+        $obj->status = 'Applied';
+        $obj->save();
+
+        $job_info = Job::with('rCompany')->where('id', $id)->first();
+        $company_email = $job_info->rCompany->email;
+
+        // Sending email to company
+        // $applicants_list_url = route('company_applicants',$id);
+        // $subject = 'A person applied to a job';
+        // $message = 'Please check the application: ';
+        // $message .= '<a href="'.$applicants_list_url.'">Click here to see applicants list for this job</a>';
+
+        // \Mail::to($company_email)->send(new Websitemail($subject,$message));
+
+        return redirect()->route('job', $id)->with('success', 'Your application is sent successfully!');
+    }
+
+    public function applications()
+    {
+        $applied_jobs = CandidateApplication::with('rJob')->where('candidate_id', Auth::guard('candidate')->user()->id)->get();
+        return view('candidate.applications', compact('applied_jobs'));
     }
 }
