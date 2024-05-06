@@ -227,7 +227,7 @@
                                                 @endif
                                             </div>
 
-                                            {{-- @if(!Auth::guard('company')->check())
+                                            @if(!Auth::guard('company')->check())
                                             <div class="bookmark">
                                                 @if(Auth::guard('candidate')->check())
                                                     @php
@@ -243,7 +243,7 @@
                                                 @endif
                                                 <a href="{{ route('candidate_bookmark_add',$item->id) }}"><i class="fas fa-bookmark {{ $bookmark_status }}"></i></a>
                                             </div>
-                                            @endif --}}
+                                            @endif
                                         </div>
                                     </div>
                                 </div>

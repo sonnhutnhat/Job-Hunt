@@ -173,6 +173,10 @@ Route::middleware(['candidate:candidate'])->group(function () {
     Route::get('/candidate/resume/edit/{id}', [CandidateController::class, 'resume_edit'])->name('candidate_resume_edit');
     Route::post('/candidate/resume/update/{id}', [CandidateController::class, 'resume_update'])->name('candidate_resume_update');
     Route::get('/candidate/resume/delete/{id}', [CandidateController::class, 'resume_delete'])->name('candidate_resume_delete');
+
+    Route::get('/candidate/bookmark-add/{id}', [CandidateController::class, 'bookmark_add'])->name('candidate_bookmark_add');
+    Route::get('/candidate/bookmark-view', [CandidateController::class, 'bookmark_view'])->name('candidate_bookmark_view');
+    Route::get('/candidate/bookmark-delete/{id}', [CandidateController::class, 'bookmark_delete'])->name('candidate_bookmark_delete');
 });
 
 

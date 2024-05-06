@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers\Candidate;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Job;
-use App\Models\Candidate;
-use App\Models\CandidateEducation;
-use App\Models\CandidateSkill;
-use App\Models\CandidateExperience;
-use App\Models\CandidateAward;
-use App\Models\CandidateResume;
-use App\Mail\WebsiteMail;
-use Illuminate\Validation\Rule;
-use Hash;
 use Auth;
+use Hash;
+use App\Models\Job;
+use App\Mail\WebsiteMail;
+use App\Models\Candidate;
+use Illuminate\Http\Request;
+use App\Models\CandidateAward;
+use App\Models\CandidateSkill;
+use App\Models\CandidateResume;
+use Illuminate\Validation\Rule;
+use App\Models\CandidateBookmark;
+use App\Models\CandidateEducation;
+use App\Models\CandidateExperience;
+use App\Http\Controllers\Controller;
 
 
 class CandidateController extends Controller
@@ -415,5 +416,34 @@ class CandidateController extends Controller
         unlink(public_path('uploads/'.$resume_single->file));
         CandidateResume::where('id',$id)->delete();
         return redirect()->route('candidate_resume')->with('success', 'Resume is deleted successfully.');
+    }
+
+    public function bookmark_add($id)
+    {
+        $existing_bookmark_check = CandidateBookmark::where('candidate_id',Auth::guard('candidate')->user()->id)->where('job_id',$id)->count();
+        if($existing_bookmark_check > 0) {
+            return redirect()->back()->with('error', 'This job is already added to the bookmark');
+        }
+
+        $obj = new CandidateBookmark();
+        $obj->candidate_id = Auth::guard('candidate')->user()->id;
+        $obj->job_id = $id;
+        $obj->save();
+
+        return redirect()->back()->with('success', 'Job is added to bookmark section successfully.');
+    }
+
+    public function bookmark_view()
+    {
+        $bookmarked_jobs = CandidateBookmark::with('rJob','rCandidate')->where('candidate_id',Auth::guard('candidate')->user()->id)->get();
+
+        return view('candidate.bookmark', compact('bookmarked_jobs'));
+    }
+
+    public function bookmark_delete($id)
+    {
+        CandidateBookmark::where('id',$id)->delete();
+
+        return redirect()->back()->with('success', 'Bookmark item is deleted successfully.');
     }
 }
