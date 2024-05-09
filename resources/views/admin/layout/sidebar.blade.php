@@ -104,6 +104,10 @@
             <li class="{{ Request::is('admin/package/*') ? 'active' : '' }}"><a class="nav-link"
                     href="{{ route('admin_package') }}" data-bs-toggle="tooltip" data-bs-placement="right"
                     data-bs-title="Packages"><i class="fas fa-hand-point-right"></i> <span>Package</span></a></li>
+            <li class="{{ Request::is('admin/advertisement') ? 'active' : '' }}"><a class="nav-link"
+                    href="{{ route('admin_advertisement') }}" data-bs-toggle="tooltip" data-bs-placement="right"
+                    data-bs-title="Advertisement"><i class="fas fa-hand-point-right"></i>
+                    <span>Advertisement</span></a></li>
 
         </ul>
     </aside>
