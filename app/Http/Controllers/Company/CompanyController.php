@@ -19,6 +19,15 @@ use App\Models\JobType;
 use App\Models\JobExperience;
 use App\Models\JobGender;
 use App\Models\JobSalaryRange;
+use App\Models\Candidate;
+use App\Models\CandidateApplication;
+use App\Models\CandidateBookmark;
+use App\Models\CandidateEducation;
+use App\Models\CandidateExperience;
+use App\Models\CandidateSkill;
+use App\Models\CandidateAward;
+use App\Models\CandidateResume;
+use App\Mail\WebsiteMail;
 use Illuminate\Validation\Rule;
 use Auth;
 use Hash;
@@ -515,5 +524,52 @@ class CompanyController extends Controller
     {
         Job::where('id',$id)->delete();
         return redirect()->route('company_jobs')->with('success', 'Job is deleted successfully.');
+    }
+
+    public function candidate_applications()
+    {
+        $jobs = Job::with('rJobCategory','rJobLocation','rJobType','rJobGender','rJobExperience','rJobSalaryRange')->where('company_id',Auth::guard('company')->user()->id)->get();
+        return view('company.applications', compact('jobs'));
+    }
+
+    public function applicants($id)
+    {
+        $applicants = CandidateApplication::with('rCandidate')->where('job_id',$id)->get();
+        $job_single = Job::where('id',$id)->first();
+
+        return view('company.applicants', compact('applicants','job_single'));
+    }
+
+    public function applicant_resume($id)
+    {
+        $candidate_single = Candidate::where('id',$id)->first();
+        $candidate_educations = CandidateEducation::where('candidate_id',$id)->get();
+        $candidate_experiences = CandidateExperience::where('candidate_id',$id)->get();
+        $candidate_skills = CandidateSkill::where('candidate_id',$id)->get();
+        $candidate_awards = CandidateAward::where('candidate_id',$id)->get();
+        $candidate_resumes = CandidateResume::where('candidate_id',$id)->get();
+
+        return view('company.applicant_resume', compact('candidate_single','candidate_educations','candidate_experiences','candidate_skills','candidate_awards','candidate_resumes'));
+    }
+
+    public function application_status_change(Request $request)
+    {
+        $obj = CandidateApplication::with('rCandidate')->where('candidate_id',$request->candidate_id)->where('job_id',$request->job_id)->first();
+        $obj->status = $request->status;
+        $obj->update();
+
+        // $candidate_email = $obj->rCandidate->email;
+
+        // if($request->status == 'Approved') {
+        //     // Sending email to candidates
+        //     $detail_link = route('candidate_applications');
+        //     $subject = 'Congratulation! Your application is approved';
+        //     $message = 'Please check the detail: <br>';
+        //     $message .= '<a href="'.$detail_link.'">Click here to see the detail</a>';
+
+        //     \Mail::to($candidate_email)->send(new Websitemail($subject,$message));
+        // }
+
+        return redirect()->back()->with('success', 'Status is changed successfully!');
     }
 }
