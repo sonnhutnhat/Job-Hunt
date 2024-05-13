@@ -8,7 +8,7 @@
 @endsection
 
 @section('main_content')
-    <div class="page-top" style="background-image: url('{{ asset('uploads/banner.jpg') }}')">
+    <div class="page-top" style="background-image: url('{{ asset('uploads/' . $global_banner_data->banner_pricing) }}')">
         <div class="bg"></div>
         <div class="container">
             <div class="row">

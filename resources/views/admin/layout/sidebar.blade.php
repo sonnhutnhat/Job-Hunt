@@ -108,7 +108,9 @@
                     href="{{ route('admin_advertisement') }}" data-bs-toggle="tooltip" data-bs-placement="right"
                     data-bs-title="Advertisement"><i class="fas fa-hand-point-right"></i>
                     <span>Advertisement</span></a></li>
-
+            <li class="{{ Request::is('admin/banner') ? 'active' : '' }}"><a class="nav-link"
+                    href="{{ route('admin_banner') }}" data-bs-toggle="tooltip" data-bs-placement="right"
+                    data-bs-title="Banner"><i class="fas fa-hand-point-right"></i> <span>Banner</span></a></li>
         </ul>
     </aside>
 </div>

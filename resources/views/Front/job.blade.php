@@ -5,7 +5,7 @@
 
 @section('main_content')
 
-<div class="page-top page-top-job-single" style="background-image: url('{{ asset('uploads/banner.jpg') }}')">
+<div class="page-top page-top-job-single" style="background-image: url('{{ asset('uploads/'.$global_banner_data->banner_job_detail) }}')">
     <div class="bg"></div>
     <div class="container">
         <div class="row">
