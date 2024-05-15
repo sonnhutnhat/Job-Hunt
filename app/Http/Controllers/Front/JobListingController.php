@@ -68,7 +68,9 @@ class JobListingController extends Controller
 
         $advertisement_data = Advertisement::where('id', 1)->first();
 
-        return view('front.job_listing', compact('jobs', 'job_categories', 'job_locations', 'job_types', 'job_experiences', 'job_genders', 'job_salary_ranges', 'form_title', 'form_category', 'form_location', 'form_type', 'form_experience', 'form_gender', 'form_salary_range', 'advertisement_data'));
+        $other_page_item = PageOtherItem::where('id', 1)->first();
+
+        return view('front.job_listing', compact('jobs', 'job_categories', 'job_locations', 'job_types', 'job_experiences', 'job_genders', 'job_salary_ranges', 'form_title', 'form_category', 'form_location', 'form_type', 'form_experience', 'form_gender', 'form_salary_range', 'advertisement_data', 'other_page_item'));
     }
 
     public function detail($id)
@@ -77,9 +79,9 @@ class JobListingController extends Controller
 
         $jobs = Job::with('rCompany', 'rJobCategory', 'rJobLocation', 'rJobType', 'rJobExperience', 'rJobGender', 'rJobSalaryRange')->where('job_category_id', $job_single->job_category_id)->get();
 
-        // $other_page_item = PageOtherItem::where('id',1)->first();
+        $other_page_item = PageOtherItem::where('id', 1)->first();
 
-        return view('front.job', compact('job_single', 'jobs'));
+        return view('front.job', compact('job_single', 'jobs', 'other_page_item'));
     }
 
     public function send_email(Request $request)

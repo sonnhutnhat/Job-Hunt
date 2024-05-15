@@ -487,12 +487,12 @@ class CandidateController extends Controller
         $company_email = $job_info->rCompany->email;
 
         // Sending email to company
-        // $applicants_list_url = route('company_applicants',$id);
-        // $subject = 'A person applied to a job';
-        // $message = 'Please check the application: ';
-        // $message .= '<a href="'.$applicants_list_url.'">Click here to see applicants list for this job</a>';
+        $applicants_list_url = route('company_applicants',$id);
+        $subject = 'A person applied to a job';
+        $message = 'Please check the application: ';
+        $message .= '<a href="'.$applicants_list_url.'">Click here to see applicants list for this job</a>';
 
-        // \Mail::to($company_email)->send(new Websitemail($subject,$message));
+        \Mail::to($company_email)->send(new Websitemail($subject,$message));
 
         return redirect()->route('job',$id)->with('success', 'Your application is sent successfully!');
     }

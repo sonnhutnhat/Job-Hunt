@@ -23,6 +23,8 @@ class AdminOtherPageController extends Controller
             'login_page_heading' => 'required',
             'signup_page_heading' => 'required',
             'forget_password_page_heading' => 'required',
+            'job_listing_page_heading' => 'required',
+            'company_listing_page_heading' => 'required'
         ]);
 
         $other_page_data->login_page_heading = $request->login_page_heading;
@@ -34,6 +36,12 @@ class AdminOtherPageController extends Controller
         $other_page_data->forget_password_page_heading = $request->forget_password_page_heading;
         $other_page_data->forget_password_page_title = $request->forget_password_page_title;
         $other_page_data->forget_password_page_meta_description = $request->forget_password_page_meta_description;
+        $other_page_data->job_listing_page_heading = $request->job_listing_page_heading;
+        $other_page_data->job_listing_page_title = $request->job_listing_page_title;
+        $other_page_data->job_listing_page_meta_description = $request->job_listing_page_meta_description;
+        $other_page_data->company_listing_page_heading = $request->company_listing_page_heading;
+        $other_page_data->company_listing_page_title = $request->company_listing_page_title;
+        $other_page_data->company_listing_page_meta_description = $request->company_listing_page_meta_description;
         
         $other_page_data->update();
 

@@ -558,17 +558,17 @@ class CompanyController extends Controller
         $obj->status = $request->status;
         $obj->update();
 
-        // $candidate_email = $obj->rCandidate->email;
+        $candidate_email = $obj->rCandidate->email;
 
-        // if($request->status == 'Approved') {
-        //     // Sending email to candidates
-        //     $detail_link = route('candidate_applications');
-        //     $subject = 'Congratulation! Your application is approved';
-        //     $message = 'Please check the detail: <br>';
-        //     $message .= '<a href="'.$detail_link.'">Click here to see the detail</a>';
+        if($request->status == 'Approved') {
+            // Sending email to candidates
+            $detail_link = route('candidate_applications');
+            $subject = 'Congratulation! Your application is approved';
+            $message = 'Please check the detail: <br>';
+            $message .= '<a href="'.$detail_link.'">Click here to see the detail</a>';
 
-        //     \Mail::to($candidate_email)->send(new Websitemail($subject,$message));
-        // }
+            \Mail::to($candidate_email)->send(new Websitemail($subject,$message));
+        }
 
         return redirect()->back()->with('success', 'Status is changed successfully!');
     }

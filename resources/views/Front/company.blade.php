@@ -1,7 +1,7 @@
 @extends('front.layout.app')
 
-{{-- @section('seo_title'){{ $other_page_item->company_listing_page_title }}@endsection
-@section('seo_meta_description'){{ $other_page_item->company_listing_page_meta_description }}@endsection --}}
+@section('seo_title'){{ $other_page_item->company_listing_page_title }}@endsection
+@section('seo_meta_description'){{ $other_page_item->company_listing_page_meta_description }}@endsection
 
 @section('main_content')
 
