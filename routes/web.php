@@ -48,6 +48,7 @@ use App\Http\Controllers\Front\SubscriberController;
 use App\Http\Controllers\Admin\AdminSubscriberController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\Candidate\CandidateController;
+use App\Http\Controllers\Admin\AdminSettingController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('terms-of-use', [TermsController::class, 'index'])->name('terms');
@@ -344,4 +345,7 @@ Route::middleware(['admin:admin'])->group(function () {
     Route::get('/admin/subscribers-send-email', [AdminSubscriberController::class, 'send_email'])->name('admin_subscribers_send_email');
     Route::post('/admin/subscribers-send-email-submit', [AdminSubscriberController::class, 'send_email_submit'])->name('admin_subscribers_send_email_submit');
     Route::get('/admin/subscriber-delete/{id}', [AdminSubscriberController::class, 'delete'])->name('admin_subscriber_delete');
+
+    Route::get('/admin/settings', [AdminSettingController::class, 'index'])->name('admin_settings');
+    Route::post('/admin/settings/update', [AdminSettingController::class, 'update'])->name('admin_settings_update');
 });

@@ -13,6 +13,10 @@
                     href="{{ route('admin_home') }}" data-bs-toggle="tooltip" data-bs-placement="right"
                     data-bs-title="Dashboard"><i class="fas fa-hand-point-right"></i> <span>Dashboard</span></a></li>
 
+            <li class="{{ Request::is('admin/settings') ? 'active' : '' }}"><a class="nav-link"
+                    href="{{ route('admin_settings') }}" data-bs-toggle="tooltip" data-bs-placement="right"
+                    data-bs-title="Settings"><i class="fas fa-hand-point-right"></i> <span>Settings</span></a></li>
+
             <li
                 class="nav-item dropdown {{ Request::is('admin/home-page') || Request::is('admin/faq-page') || Request::is('admin/blog-page') || Request::is('admin/term-page') || Request::is('admin/privacy-page') || Request::is('admin/contact-page') || Request::is('admin/job-category-page') || Request::is('admin/pricing-page') || Request::is('admin/other-page') ? 'active' : '' }}">
                 <a href="#" class="nav-link has-dropdown"><i class="fas fa-hand-point-right"></i><span>Page

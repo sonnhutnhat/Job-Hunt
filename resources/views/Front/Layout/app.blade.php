@@ -7,7 +7,7 @@
         <meta name="description" content="@yield('seo_meta_description')">
         <title>@yield('seo_title')</title>
 
-        <link rel="icon" type="image/png" href="{{ asset('uploads/favicon.png') }}" />
+        <link rel="icon" type="image/png" href="{{ asset('uploads/'.$global_settings_data->favicon) }}" />
 
         @include('front.layout.styles')
 
@@ -25,8 +25,8 @@
                 <div class="row">
                     <div class="col-md-6 left-side">
                         <ul>
-                            <li class="phone-text">111-222-3333</li>
-                            <li class="email-text">contact@arefindev.com</li>
+                            <li class="phone-text">{{ $global_settings_data->top_bar_phone }}</li>
+                            <li class="email-text">{{ $global_settings_data->top_bar_email }}</li>
                         </ul>
                     </div>
                     <div class="col-md-6 right-side">
@@ -79,10 +79,10 @@
                         <div class="item">
                             <h2 class="heading">For Candidates</h2>
                             <ul class="useful-links">
-                                <li><a href="">Browser Jobs</a></li>
-                                <li><a href="">Browse Candidates</a></li>
-                                <li><a href="">Candidate Dashboard</a></li>
-                                <li><a href="">Saved Jobs</a></li>
+                                <li><a href="{{ route('job_listing') }}">Browser Jobs</a></li>
+                                <li><a href="{{ route('candidate_dashboard') }}">Candidate Dashboard</a></li>
+                                <li><a href="{{ route('candidate_bookmark_view') }}">Bookmarked Jobs</a></li>
+                                <li><a href="{{ route('candidate_applications') }}">Applied Jobs</a></li>
                             </ul>
                         </div>
                     </div>
@@ -90,10 +90,10 @@
                         <div class="item">
                             <h2 class="heading">For Companies</h2>
                             <ul class="useful-links">
-                                <li><a href="">Post Job</a></li>
-                                <li><a href="">Browse Jobs</a></li>
-                                <li><a href="">Company Dashboard</a></li>
-                                <li><a href="">Applications</a></li>
+                                <li><a href="{{ route('company_listing') }}">Browse Companies</a></li>
+                                <li><a href="{{ route('company_dashboard') }}">Company Dashboard</a></li>
+                                <li><a href="{{ route('company_jobs_create') }}">Post New Job</a></li>
+                                <li><a href="{{ route('company_candidate_applications') }}">Candidate Applications</a></li>
                             </ul>
                         </div>
                     </div>
@@ -106,47 +106,52 @@
                                     <i class="fas fa-map-marker-alt"></i>
                                 </div>
                                 <div class="right">
-                                    34 Antiger Lane, USA, 12937
+                                    {{ $global_settings_data->footer_address }}
                                 </div>
                             </div>
                             <div class="list-item">
                                 <div class="left">
                                     <i class="fas fa-phone"></i>
                                 </div>
-                                <div class="right">contact@arefindev.com</div>
+                                <div class="right">{{ $global_settings_data->footer_phone }}</div>
                             </div>
                             <div class="list-item">
                                 <div class="left">
                                     <i class="fas fa-envelope"></i>
                                 </div>
-                                <div class="right">122-222-1212</div>
+                                <div class="right">{{ $global_settings_data->footer_email }}</div>
                             </div>
                             <ul class="social">
+
+                                @if($global_settings_data->facebook!=null)
                                 <li>
-                                    <a href=""
-                                        ><i class="fab fa-facebook-f"></i
-                                    ></a>
+                                    <a href="{{ $global_settings_data->facebook }}" target="_blank"><i class="fab fa-facebook-f"></i></a>
                                 </li>
+                                @endif
+
+                                @if($global_settings_data->twitter!=null)
                                 <li>
-                                    <a href=""
-                                        ><i class="fab fa-twitter"></i
-                                    ></a>
+                                    <a href="{{ $global_settings_data->twitter }}" target="_blank"><i class="fab fa-twitter"></i></a>
                                 </li>
+                                @endif
+
+                                @if($global_settings_data->pinterest!=null)
                                 <li>
-                                    <a href=""
-                                        ><i class="fab fa-pinterest-p"></i
-                                    ></a>
+                                    <a href="{{ $global_settings_data->pinterest }}" target="_blank"><i class="fab fa-pinterest-p"></i></a>
                                 </li>
+                                @endif
+
+                                @if($global_settings_data->linkedin!=null)
                                 <li>
-                                    <a href=""
-                                        ><i class="fab fa-linkedin-in"></i
-                                    ></a>
+                                    <a href="{{ $global_settings_data->linkedin }}" target="_blank"><i class="fab fa-linkedin-in"></i></a>
                                 </li>
+                                @endif
+
+                                @if($global_settings_data->instagram!=null)
                                 <li>
-                                    <a href=""
-                                        ><i class="fab fa-instagram"></i
-                                    ></a>
+                                    <a href="{{ $global_settings_data->instagram }}" target="_blank"><i class="fab fa-instagram"></i></a>
                                 </li>
+                                @endif
                             </ul>
                         </div>
                     </div>
