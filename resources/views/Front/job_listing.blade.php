@@ -1,10 +1,14 @@
 @extends('front.layout.app')
 
-@section('seo_title'){{ $other_page_item->job_listing_page_title }}@endsection
-@section('seo_meta_description'){{ $other_page_item->job_listing_page_meta_description }}@endsection
+@section('seo_title')
+    {{ $other_page_item->job_listing_page_title }}
+@endsection
+@section('seo_meta_description')
+    {{ $other_page_item->job_listing_page_meta_description }}
+@endsection
 
 @section('main_content')
-<div class="page-top" style="background-image: url('{{ asset('uploads/'.$global_banner_data->banner_job_listing) }}')">
+    <div class="page-top" style="background-image: url('{{ asset('uploads/' . $global_banner_data->banner_job_listing) }}')">
         <div class="bg"></div>
         <div class="container">
             <div class="row">
@@ -102,7 +106,8 @@
                         @if ($advertisement_data->job_listing_ad_status == 'Show')
                             <div class="advertisement">
                                 @if ($advertisement_data->job_listing_ad_url == null)
-                                    <img src="{{ asset('uploads/' . $advertisement_data->job_listing_ad) }}" alt="">
+                                    <img src="{{ asset('uploads/' . $advertisement_data->job_listing_ad) }}"
+                                        alt="">
                                 @else
                                     <a href="{{ $advertisement_data->job_listing_ad_url }}" target="_blank"><img
                                             src="{{ asset('uploads/' . $advertisement_data->job_listing_ad) }}"
@@ -125,13 +130,15 @@
                                     <div class="text-danger">No Result Found</div>
                                 @else
                                     @foreach ($jobs as $item)
-                                        {{-- @php
-                            $this_company_id = $item->rCompany->id;
-                            $order_data = \App\Models\Order::where('company_id',$this_company_id)->where('currently_active',1)->first();
-                            if(date('Y-m-d') > $order_data->expire_date) {
-                                continue;
-                            }
-                            @endphp --}}
+                                        @php
+                                            $this_company_id = $item->rCompany->id;
+                                            $order_data = \App\Models\Order::where('company_id', $this_company_id)
+                                                ->where('currently_active', 1)
+                                                ->first();
+                                            if (date('Y-m-d') > $order_data->expire_date) {
+                                                continue;
+                                            }
+                                        @endphp
                                         <div class="col-md-12">
                                             <div class="item d-flex justify-content-start">
                                                 <div class="logo">

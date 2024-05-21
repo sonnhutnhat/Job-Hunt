@@ -1,7 +1,11 @@
 @extends('front.layout.app')
 
-@section('seo_title'){{ $other_page_item->company_listing_page_title }}@endsection
-@section('seo_meta_description'){{ $other_page_item->company_listing_page_meta_description }}@endsection
+@section('seo_title')
+    {{ $other_page_item->company_listing_page_title }}
+@endsection
+@section('seo_meta_description')
+    {{ $other_page_item->company_listing_page_meta_description }}
+@endsection
 
 @section('main_content')
     <div class="page-top" style="background-image: url('{{ asset('uploads/' . $global_banner_data->banner_job_listing) }}')">
@@ -110,12 +114,14 @@
                                     <div class="text-danger">No Result Found</div>
                                 @else
                                     @foreach ($companies as $item)
-                                        {{-- @php
-                            $order_data = \App\Models\Order::where('company_id',$item->id)->where('currently_active',1)->first();
-                            if(date('Y-m-d') > $order_data->expire_date) {
-                                continue;
-                            }
-                            @endphp --}}
+                                        @php
+                                            $order_data = \App\Models\Order::where('company_id', $item->id)
+                                                ->where('currently_active', 1)
+                                                ->first();
+                                            if (date('Y-m-d') > $order_data->expire_date) {
+                                                continue;
+                                            }
+                                        @endphp
                                         <div class="col-md-12">
                                             <div class="item d-flex justify-content-start">
                                                 <div class="logo">

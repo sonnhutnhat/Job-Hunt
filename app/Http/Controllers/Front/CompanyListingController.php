@@ -21,9 +21,9 @@ class CompanyListingController extends Controller
     public function index(Request $request)
     {
 
-        $company_industries = CompanyIndustry::orderBy('name','asc')->get();
-        $company_locations = CompanyLocation::orderBy('name','asc')->get();
-        $company_sizes = CompanySize::orderBy('id','asc')->get();
+        $company_industries = CompanyIndustry::orderBy('name', 'asc')->get();
+        $company_locations = CompanyLocation::orderBy('name', 'asc')->get();
+        $company_sizes = CompanySize::orderBy('id', 'asc')->get();
 
         $form_name = $request->name;
         $form_industry = $request->industry;
@@ -31,63 +31,63 @@ class CompanyListingController extends Controller
         $form_size = $request->size;
         $form_founded = $request->founded;
 
-        $companies = Company::withCount('rJob')->with('rCompanyIndustry','rCompanyLocation','rCompanySize')->orderBy('id','desc');
+        $companies = Company::withCount('rJob')->with('rCompanyIndustry', 'rCompanyLocation', 'rCompanySize')->orderBy('id', 'desc');
 
-        if($request->name != null) {
-            $companies = $companies->where('company_name','LIKE','%'.$request->name.'%');
+        if ($request->name != null) {
+            $companies = $companies->where('company_name', 'LIKE', '%' . $request->name . '%');
         }
 
-        if($request->industry != null) {
-            $companies = $companies->where('company_industry_id',$request->industry);
+        if ($request->industry != null) {
+            $companies = $companies->where('company_industry_id', $request->industry);
         }
 
-        if($request->location != null) {
-            $companies = $companies->where('company_location_id',$request->location);
+        if ($request->location != null) {
+            $companies = $companies->where('company_location_id', $request->location);
         }
 
-        if($request->size != null) {
-            $companies = $companies->where('company_size_id',$request->size);
+        if ($request->size != null) {
+            $companies = $companies->where('company_size_id', $request->size);
         }
 
-        if($request->founded != null) {
-            $companies = $companies->where('founded_on',$request->founded);
+        if ($request->founded != null) {
+            $companies = $companies->where('founded_on', $request->founded);
         }
 
         $companies = $companies->paginate(9);
 
-        $advertisement_data = Advertisement::where('id',1)->first();
+        $advertisement_data = Advertisement::where('id', 1)->first();
 
-        $other_page_item = PageOtherItem::where('id',1)->first();
+        $other_page_item = PageOtherItem::where('id', 1)->first();
 
-        return view('front.company_listing', compact('companies','company_industries','company_locations','company_sizes','form_name','form_industry','form_location','form_size','form_founded','advertisement_data','other_page_item'));
+        return view('front.company_listing', compact('companies', 'company_industries', 'company_locations', 'company_sizes', 'form_name', 'form_industry', 'form_location', 'form_size', 'form_founded', 'advertisement_data', 'other_page_item'));
     }
 
     public function detail($id)
     {
-        // $order_data = Order::where('company_id',$id)->where('currently_active',1)->first();
-        // if(date('Y-m-d') > $order_data->expire_date) {
-        //     return redirect()->route('home');
-        // }
+        $order_data = Order::where('company_id', $id)->where('currently_active', 1)->first();
+        if (date('Y-m-d') > $order_data->expire_date) {
+            return redirect()->route('home');
+        }
 
-        $company_single = Company::withCount('rJob')->with('rCompanyIndustry','rCompanyLocation','rCompanySize')->where('id',$id)->first();
+        $company_single = Company::withCount('rJob')->with('rCompanyIndustry', 'rCompanyLocation', 'rCompanySize')->where('id', $id)->first();
 
-        if(CompanyPhoto::where('company_id',$company_single->id)->exists()) {
-            $company_photos = CompanyPhoto::where('company_id',$company_single->id)->get();
+        if (CompanyPhoto::where('company_id', $company_single->id)->exists()) {
+            $company_photos = CompanyPhoto::where('company_id', $company_single->id)->get();
         } else {
             $company_photos = '';
         }
 
-        if(CompanyVideo::where('company_id',$company_single->id)->exists()) {
-            $company_videos = CompanyVideo::where('company_id',$company_single->id)->get();
+        if (CompanyVideo::where('company_id', $company_single->id)->exists()) {
+            $company_videos = CompanyVideo::where('company_id', $company_single->id)->get();
         } else {
             $company_videos = '';
         }
 
-        $jobs = Job::with('rJobCategory','rJobLocation','rJobType','rJobExperience','rJobGender','rJobSalaryRange')->where('company_id',$company_single->id)->get();
+        $jobs = Job::with('rJobCategory', 'rJobLocation', 'rJobType', 'rJobExperience', 'rJobGender', 'rJobSalaryRange')->where('company_id', $company_single->id)->get();
 
-        $other_page_item = PageOtherItem::where('id',1)->first();
+        $other_page_item = PageOtherItem::where('id', 1)->first();
 
-        return view('front.company', compact('company_single','company_photos','company_videos','jobs','other_page_item'));
+        return view('front.company', compact('company_single', 'company_photos', 'company_videos', 'jobs', 'other_page_item'));
     }
 
     public function send_email(Request $request)
@@ -100,12 +100,12 @@ class CompanyListingController extends Controller
 
         $subject = 'Contact Form Message';
         $message = 'Visitor Information: <br>';
-        $message .= 'Name: '.$request->visitor_name.'<br>';
-        $message .= 'Email: '.$request->visitor_email.'<br>';
-        $message .= 'Phone: '.$request->visitor_phone.'<br>';
-        $message .= 'Message: '.$request->visitor_message;
+        $message .= 'Name: ' . $request->visitor_name . '<br>';
+        $message .= 'Email: ' . $request->visitor_email . '<br>';
+        $message .= 'Phone: ' . $request->visitor_phone . '<br>';
+        $message .= 'Message: ' . $request->visitor_message;
 
-        \Mail::to($request->receive_email)->send(new Websitemail($subject,$message));
+        \Mail::to($request->receive_email)->send(new Websitemail($subject, $message));
 
         return redirect()->back()->with('success', 'Email is sent successfully!');
     }
