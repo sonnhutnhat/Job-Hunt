@@ -31,18 +31,17 @@ class AdminJobSalaryRangeController extends Controller
         $obj->save();
 
         return redirect()->route('admin_job_salary_range')->with('success', 'Data is saved successfully.');
-
     }
 
     public function edit($id)
     {
-        $job_salary_range_single = JobSalaryRange::where('id',$id)->first();
-        return view('admin.job_salary_range_edit',compact('job_salary_range_single'));
+        $job_salary_range_single = JobSalaryRange::where('id', $id)->first();
+        return view('admin.job_salary_range_edit', compact('job_salary_range_single'));
     }
 
     public function update(Request $request, $id)
     {
-        $obj = JobSalaryRange::where('id',$id)->first();
+        $obj = JobSalaryRange::where('id', $id)->first();
 
         $request->validate([
             'name' => 'required'
@@ -52,12 +51,16 @@ class AdminJobSalaryRangeController extends Controller
         $obj->update();
 
         return redirect()->route('admin_job_salary_range')->with('success', 'Data is updated successfully.');
-
     }
 
     public function delete($id)
     {
-        JobSalaryRange::where('id',$id)->delete();
+        $check = Job::where('job_salary_range_id', $id)->count();
+        if ($check > 0) {
+            return redirect()->back()->with('error', 'You can not delete this item, because this is used in another place.');
+        }
+
+        JobSalaryRange::where('id', $id)->delete();
         return redirect()->route('admin_job_salary_range')->with('success', 'Data is deleted successfully.');
     }
 }

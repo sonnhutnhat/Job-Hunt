@@ -31,18 +31,17 @@ class AdminJobExperienceController extends Controller
         $obj->save();
 
         return redirect()->route('admin_job_experience')->with('success', 'Data is saved successfully.');
-
     }
 
     public function edit($id)
     {
-        $job_experience_single = JobExperience::where('id',$id)->first();
-        return view('admin.job_experience_edit',compact('job_experience_single'));
+        $job_experience_single = JobExperience::where('id', $id)->first();
+        return view('admin.job_experience_edit', compact('job_experience_single'));
     }
 
     public function update(Request $request, $id)
     {
-        $obj = JobExperience::where('id',$id)->first();
+        $obj = JobExperience::where('id', $id)->first();
 
         $request->validate([
             'name' => 'required'
@@ -52,12 +51,16 @@ class AdminJobExperienceController extends Controller
         $obj->update();
 
         return redirect()->route('admin_job_experience')->with('success', 'Data is updated successfully.');
-
     }
 
     public function delete($id)
     {
-        JobExperience::where('id',$id)->delete();
+        $check = Job::where('job_experience_id', $id)->count();
+        if ($check > 0) {
+            return redirect()->back()->with('error', 'You can not delete this item, because this is used in another place.');
+        }
+
+        JobExperience::where('id', $id)->delete();
         return redirect()->route('admin_job_experience')->with('success', 'Data is deleted successfully.');
     }
 }

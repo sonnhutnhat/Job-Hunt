@@ -38,15 +38,15 @@ class CompanyController extends Controller
 {
     public function dashboard()
     {
-        $total_opened_jobs = Job::where('company_id',Auth::guard('company')->user()->id)->count();
-        $total_featured_jobs = Job::where('company_id',Auth::guard('company')->user()->id)->where('is_featured',1)->count();
-        $jobs = Job::with('rJobCategory')->where('company_id',Auth::guard('company')->user()->id)->orderBy('id','desc')->take(2)->get();
-        return view('company.dashboard', compact('jobs','total_opened_jobs','total_featured_jobs'));
+        $total_opened_jobs = Job::where('company_id', Auth::guard('company')->user()->id)->count();
+        $total_featured_jobs = Job::where('company_id', Auth::guard('company')->user()->id)->where('is_featured', 1)->count();
+        $jobs = Job::with('rJobCategory')->where('company_id', Auth::guard('company')->user()->id)->orderBy('id', 'desc')->take(2)->get();
+        return view('company.dashboard', compact('jobs', 'total_opened_jobs', 'total_featured_jobs'));
     }
 
     public function orders()
     {
-        $orders = Order::with('rPackage')->orderBy('id', 'desc')->where('company_id',Auth::guard('company')->user()->id)->get();
+        $orders = Order::with('rPackage')->orderBy('id', 'desc')->where('company_id', Auth::guard('company')->user()->id)->get();
         return view('company.orders', compact('orders'));
     }
     public function edit_profile()
@@ -54,34 +54,34 @@ class CompanyController extends Controller
         $company_locations = CompanyLocation::orderBy('name', 'asc')->get();
         $company_industries = CompanyIndustry::orderBy('name', 'asc')->get();
         $company_sizes = CompanySize::get();
-        return view('company.edit_profile', compact('company_locations','company_industries','company_sizes'));
+        return view('company.edit_profile', compact('company_locations', 'company_industries', 'company_sizes'));
     }
 
     public function edit_profile_update(Request $request)
     {
-        $obj = Company::where('id',Auth::guard('company')->user()->id)->first();
+        $obj = Company::where('id', Auth::guard('company')->user()->id)->first();
         $id = $obj->id;
 
         $request->validate([
             'company_name' => 'required',
             'person_name' => 'required',
-            'username' => ['required','alpha_dash',Rule::unique('companies')->ignore($id)],
-            'email' => ['required','email',Rule::unique('companies')->ignore($id)],
+            'username' => ['required', 'alpha_dash', Rule::unique('companies')->ignore($id)],
+            'email' => ['required', 'email', Rule::unique('companies')->ignore($id)],
         ]);
 
-        if($request->hasFile('logo')) {
+        if ($request->hasFile('logo')) {
             $request->validate([
                 'logo' => 'image|mimes:jpg,jpeg,png,gif'
             ]);
 
-            if(Auth::guard('company')->user()->logo != '') {
-                unlink(public_path('uploads/'.$obj->logo));
+            if (Auth::guard('company')->user()->logo != '') {
+                unlink(public_path('uploads/' . $obj->logo));
             }
 
             $ext = $request->file('logo')->extension();
-            $final_name = 'company_logo_'.time().'.'.$ext;
+            $final_name = 'company_logo_' . time() . '.' . $ext;
 
-            $request->file('logo')->move(public_path('uploads/'),$final_name);
+            $request->file('logo')->move(public_path('uploads/'), $final_name);
 
             $obj->logo = $final_name;
         }
@@ -113,7 +113,6 @@ class CompanyController extends Controller
         $obj->update();
 
         return redirect()->back()->with('success', 'Profile is updated successfully.');
-
     }
 
     public function edit_password()
@@ -128,7 +127,7 @@ class CompanyController extends Controller
             'retype_password' => 'required|same:password'
         ]);
 
-        $obj = Company::where('id',Auth::guard('company')->user()->id)->first();
+        $obj = Company::where('id', Auth::guard('company')->user()->id)->first();
         $obj->password = Hash::make($request->password);
         $obj->update();
 
@@ -138,34 +137,34 @@ class CompanyController extends Controller
     public function photos()
     {
         // Check if a person buy a package
-        $order_data = Order::where('company_id',Auth::guard('company')->user()->id)->where('currently_active',1)->first();
+        $order_data = Order::where('company_id', Auth::guard('company')->user()->id)->where('currently_active', 1)->first();
 
-        if(!$order_data) {
+        if (!$order_data) {
             return redirect()->back()->with('error', 'You must have to buy a package first to access this page');
         }
 
         // Check if a person has access to this page under the current package
-        $package_data = Package::where('id',$order_data->package_id)->first();
+        $package_data = Package::where('id', $order_data->package_id)->first();
 
-        if($package_data->total_allowed_photos == 0) {
+        if ($package_data->total_allowed_photos == 0) {
             return redirect()->back()->with('error', 'Your current package does not allow to access the photo section');
         }
 
-        $photos = CompanyPhoto::where('company_id',Auth::guard('company')->user()->id)->get();
+        $photos = CompanyPhoto::where('company_id', Auth::guard('company')->user()->id)->get();
         return view('company.photos', compact('photos'));
     }
 
     public function photos_submit(Request $request)
     {
-        $order_data = Order::where('company_id',Auth::guard('company')->user()->id)->where('currently_active',1)->first();
-        $package_data = Package::where('id',$order_data->package_id)->first();
-        $existing_photo_number = CompanyPhoto::where('company_id',Auth::guard('company')->user()->id)->count();
+        $order_data = Order::where('company_id', Auth::guard('company')->user()->id)->where('currently_active', 1)->first();
+        $package_data = Package::where('id', $order_data->package_id)->first();
+        $existing_photo_number = CompanyPhoto::where('company_id', Auth::guard('company')->user()->id)->count();
 
-        if($package_data->total_allowed_photos == $existing_photo_number) {
+        if ($package_data->total_allowed_photos == $existing_photo_number) {
             return redirect()->back()->with('error', 'Maximum number of allowed photos are uploaded. So you have to upgrade your package if you want to add more photos.');
         }
 
-        if(date('Y-m-d') > $order_data->expire_date) {
+        if (date('Y-m-d') > $order_data->expire_date) {
             return redirect()->back()->with('error', 'Your package is expired!');
         }
 
@@ -176,8 +175,8 @@ class CompanyController extends Controller
         $obj = new CompanyPhoto();
 
         $ext = $request->file('photo')->extension();
-        $final_name = 'company_photo_'.time().'.'.$ext;
-        $request->file('photo')->move(public_path('uploads/'),$final_name);
+        $final_name = 'company_photo_' . time() . '.' . $ext;
+        $request->file('photo')->move(public_path('uploads/'), $final_name);
 
         $obj->photo = $final_name;
         $obj->company_id = Auth::guard('company')->user()->id;
@@ -188,9 +187,9 @@ class CompanyController extends Controller
 
     public function photos_delete($id)
     {
-        $single_data = CompanyPhoto::where('id',$id)->first();
-        unlink(public_path('uploads/'.$single_data->photo));
-        CompanyPhoto::where('id',$id)->delete();
+        $single_data = CompanyPhoto::where('id', $id)->first();
+        unlink(public_path('uploads/' . $single_data->photo));
+        CompanyPhoto::where('id', $id)->delete();
         return redirect()->back()->with('success', 'Photo is deleted successfully.');
     }
 
@@ -198,33 +197,33 @@ class CompanyController extends Controller
     public function videos()
     {
         // Check if a person buy a package
-        $order_data = Order::where('company_id',Auth::guard('company')->user()->id)->where('currently_active',1)->first();
+        $order_data = Order::where('company_id', Auth::guard('company')->user()->id)->where('currently_active', 1)->first();
 
-        if(!$order_data) {
+        if (!$order_data) {
             return redirect()->back()->with('error', 'You must have to buy a package first to access this page');
         }
 
         // Check if a person has access to this page under the current package
-        $package_data = Package::where('id',$order_data->package_id)->first();
-        if($package_data->total_allowed_videos == 0) {
+        $package_data = Package::where('id', $order_data->package_id)->first();
+        if ($package_data->total_allowed_videos == 0) {
             return redirect()->back()->with('error', 'Your current package does not allow to access the video section');
         }
 
-        $videos = CompanyVideo::where('company_id',Auth::guard('company')->user()->id)->get();
+        $videos = CompanyVideo::where('company_id', Auth::guard('company')->user()->id)->get();
         return view('company.videos', compact('videos'));
     }
 
     public function videos_submit(Request $request)
     {
-        $order_data = Order::where('company_id',Auth::guard('company')->user()->id)->where('currently_active',1)->first();
-        $package_data = Package::where('id',$order_data->package_id)->first();
-        $existing_video_number = CompanyVideo::where('company_id',Auth::guard('company')->user()->id)->count();
+        $order_data = Order::where('company_id', Auth::guard('company')->user()->id)->where('currently_active', 1)->first();
+        $package_data = Package::where('id', $order_data->package_id)->first();
+        $existing_video_number = CompanyVideo::where('company_id', Auth::guard('company')->user()->id)->count();
 
-        if($package_data->total_allowed_videos == $existing_video_number) {
+        if ($package_data->total_allowed_videos == $existing_video_number) {
             return redirect()->back()->with('error', 'Maximum number of allowed videos are uploaded. So you have to upgrade your package if you want to add more videos.');
         }
 
-        if(date('Y-m-d') > $order_data->expire_date) {
+        if (date('Y-m-d') > $order_data->expire_date) {
             return redirect()->back()->with('error', 'Your package is expired!');
         }
 
@@ -242,19 +241,19 @@ class CompanyController extends Controller
 
     public function videos_delete($id)
     {
-        CompanyVideo::where('id',$id)->delete();
+        CompanyVideo::where('id', $id)->delete();
         return redirect()->back()->with('success', 'Video is deleted successfully.');
     }
     public function make_payment()
     {
-        $current_plan = Order::with('rPackage')->where('company_id',Auth::guard('company')->user()->id)->where('currently_active',1)->first();
+        $current_plan = Order::with('rPackage')->where('company_id', Auth::guard('company')->user()->id)->where('currently_active', 1)->first();
         $packages = Package::get();
-        return view('company.make_payment', compact('current_plan','packages'));
+        return view('company.make_payment', compact('current_plan', 'packages'));
     }
 
     public function paypal(Request $request)
     {
-        $single_package_data = Package::where('id',$request->package_id)->first();
+        $single_package_data = Package::where('id', $request->package_id)->first();
 
         $provider = new PayPalClient;
         $provider->setApiCredentials(config('paypal'));
@@ -276,9 +275,9 @@ class CompanyController extends Controller
             ]
         ]);
 
-        if(isset($response['id']) && $response['id']!=null) {
-            foreach($response['links'] as $link) {
-                if($link['rel'] === 'approve') {
+        if (isset($response['id']) && $response['id'] != null) {
+            foreach ($response['links'] as $link) {
+                if ($link['rel'] === 'approve') {
 
                     session()->put('package_id', $single_package_data->id);
                     session()->put('package_price', $single_package_data->package_price);
@@ -299,7 +298,7 @@ class CompanyController extends Controller
         $paypalToken = $provider->getAccessToken();
         $response = $provider->capturePaymentOrder($request->token);
 
-        if(isset($response['status']) && $response['status'] == 'COMPLETED') {
+        if (isset($response['status']) && $response['status'] == 'COMPLETED') {
 
             $data['currently_active'] = 0;
             Order::where('company_id', Auth::guard()->user()->id)->update($data);
@@ -333,7 +332,7 @@ class CompanyController extends Controller
 
     public function stripe(Request $request)
     {
-        $single_package_data = Package::where('id',$request->package_id)->first();
+        $single_package_data = Package::where('id', $request->package_id)->first();
 
         \Stripe\Stripe::setApiKey(config('stripe.stripe_sk'));
         $response = \Stripe\Checkout\Session::create([
@@ -359,7 +358,6 @@ class CompanyController extends Controller
         session()->put('package_days', $single_package_data->package_days);
 
         return redirect()->away($response->url);
-
     }
 
     public function stripe_success()
@@ -394,33 +392,33 @@ class CompanyController extends Controller
     public function jobs_create()
     {
         // Check if a person buy a package
-        $order_data = Order::where('company_id',Auth::guard('company')->user()->id)->where('currently_active',1)->first();
-        if(!$order_data) {
+        $order_data = Order::where('company_id', Auth::guard('company')->user()->id)->where('currently_active', 1)->first();
+        if (!$order_data) {
             return redirect()->back()->with('error', 'You must have to buy a package first to access this page');
         }
-        if(date('Y-m-d') > $order_data->expire_date) {
+        if (date('Y-m-d') > $order_data->expire_date) {
             return redirect()->back()->with('error', 'Your package is expired!');
         }
 
         // Check if a person has access to this page under the current package
-        $package_data = Package::where('id',$order_data->package_id)->first();
-        if($package_data->total_allowed_jobs == 0) {
+        $package_data = Package::where('id', $order_data->package_id)->first();
+        if ($package_data->total_allowed_jobs == 0) {
             return redirect()->back()->with('error', 'Your current package does not allow to access the job section');
         }
 
         // How many jobs this company posted
-        $total_jobs_posted = Job::where('company_id',Auth::guard('company')->user()->id)->count();
-        if($package_data->total_allowed_jobs == $total_jobs_posted) {
+        $total_jobs_posted = Job::where('company_id', Auth::guard('company')->user()->id)->count();
+        if ($package_data->total_allowed_jobs == $total_jobs_posted) {
             return redirect()->back()->with('error', 'You already have posted the maximum number of allowed jobs');
         }
 
-        $job_categories = JobCategory::orderBy('name','asc')->get();
-        $job_locations = JobLocation::orderBy('name','asc')->get();
-        $job_types = JobType::orderBy('name','asc')->get();
-        $job_experiences = JobExperience::orderBy('id','asc')->get();
-        $job_genders = JobGender::orderBy('id','asc')->get();
-        $job_salary_ranges = JobSalaryRange::orderBy('id','asc')->get();
-        return view('company.jobs_create', compact('job_categories','job_locations','job_types','job_experiences','job_genders','job_salary_ranges'));
+        $job_categories = JobCategory::orderBy('name', 'asc')->get();
+        $job_locations = JobLocation::orderBy('name', 'asc')->get();
+        $job_types = JobType::orderBy('name', 'asc')->get();
+        $job_experiences = JobExperience::orderBy('id', 'asc')->get();
+        $job_genders = JobGender::orderBy('id', 'asc')->get();
+        $job_salary_ranges = JobSalaryRange::orderBy('id', 'asc')->get();
+        return view('company.jobs_create', compact('job_categories', 'job_locations', 'job_types', 'job_experiences', 'job_genders', 'job_salary_ranges'));
     }
 
 
@@ -433,12 +431,12 @@ class CompanyController extends Controller
             'vacancy' => 'required'
         ]);
 
-        $order_data = Order::where('company_id',Auth::guard('company')->user()->id)->where('currently_active',1)->first();
-        $package_data = Package::where('id',$order_data->package_id)->first();
+        $order_data = Order::where('company_id', Auth::guard('company')->user()->id)->where('currently_active', 1)->first();
+        $package_data = Package::where('id', $order_data->package_id)->first();
 
-        $total_featured_jobs = Job::where('company_id',Auth::guard('company')->user()->id)->where('is_featured',1)->count();
-        if($total_featured_jobs == $package_data->total_allowed_featured_jobs) {
-            if($request->is_featured == 1) {
+        $total_featured_jobs = Job::where('company_id', Auth::guard('company')->user()->id)->where('is_featured', 1)->count();
+        if ($total_featured_jobs == $package_data->total_allowed_featured_jobs) {
+            if ($request->is_featured == 1) {
                 return redirect()->back()->with('error', 'You already have added the total number of featured jobs');
             }
         }
@@ -470,26 +468,26 @@ class CompanyController extends Controller
 
     public function jobs()
     {
-        $jobs = Job::with('rJobCategory')->where('company_id',Auth::guard('company')->user()->id)->get();
+        $jobs = Job::with('rJobCategory')->where('company_id', Auth::guard('company')->user()->id)->get();
         return view('company.jobs', compact('jobs'));
     }
 
     public function jobs_edit($id)
     {
-        $jobs_single = Job::where('id',$id)->first();
-        $job_categories = JobCategory::orderBy('name','asc')->get();
-        $job_locations = JobLocation::orderBy('name','asc')->get();
-        $job_types = JobType::orderBy('name','asc')->get();
-        $job_experiences = JobExperience::orderBy('id','asc')->get();
-        $job_genders = JobGender::orderBy('id','asc')->get();
-        $job_salary_ranges = JobSalaryRange::orderBy('id','asc')->get();
+        $jobs_single = Job::where('id', $id)->first();
+        $job_categories = JobCategory::orderBy('name', 'asc')->get();
+        $job_locations = JobLocation::orderBy('name', 'asc')->get();
+        $job_types = JobType::orderBy('name', 'asc')->get();
+        $job_experiences = JobExperience::orderBy('id', 'asc')->get();
+        $job_genders = JobGender::orderBy('id', 'asc')->get();
+        $job_salary_ranges = JobSalaryRange::orderBy('id', 'asc')->get();
 
-        return view('company.jobs_edit', compact('jobs_single','job_categories','job_locations','job_types','job_experiences','job_genders','job_salary_ranges'));
+        return view('company.jobs_edit', compact('jobs_single', 'job_categories', 'job_locations', 'job_types', 'job_experiences', 'job_genders', 'job_salary_ranges'));
     }
 
-    public function jobs_update(Request $request,$id)
+    public function jobs_update(Request $request, $id)
     {
-        $obj = Job::where('id',$id)->first();
+        $obj = Job::where('id', $id)->first();
 
         $request->validate([
             'title' => 'required',
@@ -522,52 +520,54 @@ class CompanyController extends Controller
 
     public function jobs_delete($id)
     {
-        Job::where('id',$id)->delete();
+        Job::where('id', $id)->delete();
+        CandidateApplication::where('job_id', $id)->delete();
+        CandidateBookmark::where('job_id', $id)->delete();
         return redirect()->route('company_jobs')->with('success', 'Job is deleted successfully.');
     }
 
     public function candidate_applications()
     {
-        $jobs = Job::with('rJobCategory','rJobLocation','rJobType','rJobGender','rJobExperience','rJobSalaryRange')->where('company_id',Auth::guard('company')->user()->id)->get();
+        $jobs = Job::with('rJobCategory', 'rJobLocation', 'rJobType', 'rJobGender', 'rJobExperience', 'rJobSalaryRange')->where('company_id', Auth::guard('company')->user()->id)->get();
         return view('company.applications', compact('jobs'));
     }
 
     public function applicants($id)
     {
-        $applicants = CandidateApplication::with('rCandidate')->where('job_id',$id)->get();
-        $job_single = Job::where('id',$id)->first();
+        $applicants = CandidateApplication::with('rCandidate')->where('job_id', $id)->get();
+        $job_single = Job::where('id', $id)->first();
 
-        return view('company.applicants', compact('applicants','job_single'));
+        return view('company.applicants', compact('applicants', 'job_single'));
     }
 
     public function applicant_resume($id)
     {
-        $candidate_single = Candidate::where('id',$id)->first();
-        $candidate_educations = CandidateEducation::where('candidate_id',$id)->get();
-        $candidate_experiences = CandidateExperience::where('candidate_id',$id)->get();
-        $candidate_skills = CandidateSkill::where('candidate_id',$id)->get();
-        $candidate_awards = CandidateAward::where('candidate_id',$id)->get();
-        $candidate_resumes = CandidateResume::where('candidate_id',$id)->get();
+        $candidate_single = Candidate::where('id', $id)->first();
+        $candidate_educations = CandidateEducation::where('candidate_id', $id)->get();
+        $candidate_experiences = CandidateExperience::where('candidate_id', $id)->get();
+        $candidate_skills = CandidateSkill::where('candidate_id', $id)->get();
+        $candidate_awards = CandidateAward::where('candidate_id', $id)->get();
+        $candidate_resumes = CandidateResume::where('candidate_id', $id)->get();
 
-        return view('company.applicant_resume', compact('candidate_single','candidate_educations','candidate_experiences','candidate_skills','candidate_awards','candidate_resumes'));
+        return view('company.applicant_resume', compact('candidate_single', 'candidate_educations', 'candidate_experiences', 'candidate_skills', 'candidate_awards', 'candidate_resumes'));
     }
 
     public function application_status_change(Request $request)
     {
-        $obj = CandidateApplication::with('rCandidate')->where('candidate_id',$request->candidate_id)->where('job_id',$request->job_id)->first();
+        $obj = CandidateApplication::with('rCandidate')->where('candidate_id', $request->candidate_id)->where('job_id', $request->job_id)->first();
         $obj->status = $request->status;
         $obj->update();
 
         $candidate_email = $obj->rCandidate->email;
 
-        if($request->status == 'Approved') {
+        if ($request->status == 'Approved') {
             // Sending email to candidates
             $detail_link = route('candidate_applications');
             $subject = 'Congratulation! Your application is approved';
             $message = 'Please check the detail: <br>';
-            $message .= '<a href="'.$detail_link.'">Click here to see the detail</a>';
+            $message .= '<a href="' . $detail_link . '">Click here to see the detail</a>';
 
-            \Mail::to($candidate_email)->send(new Websitemail($subject,$message));
+            \Mail::to($candidate_email)->send(new Websitemail($subject, $message));
         }
 
         return redirect()->back()->with('success', 'Status is changed successfully!');

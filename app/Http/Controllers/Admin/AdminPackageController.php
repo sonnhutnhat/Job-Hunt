@@ -45,18 +45,17 @@ class AdminPackageController extends Controller
         $obj->save();
 
         return redirect()->route('admin_package')->with('success', 'Data is saved successfully.');
-
     }
 
     public function edit($id)
     {
-        $package_single = Package::where('id',$id)->first();
-        return view('admin.package_edit',compact('package_single'));
+        $package_single = Package::where('id', $id)->first();
+        return view('admin.package_edit', compact('package_single'));
     }
 
     public function update(Request $request, $id)
     {
-        $obj = Package::where('id',$id)->first();
+        $obj = Package::where('id', $id)->first();
 
         $request->validate([
             'package_name' => 'required',
@@ -80,13 +79,16 @@ class AdminPackageController extends Controller
         $obj->update();
 
         return redirect()->route('admin_package')->with('success', 'Data is updated successfully.');
-
     }
 
     public function delete($id)
     {
+        $check = Order::where('package_id', $id)->count();
+        if ($check > 0) {
+            return redirect()->back()->with('error', 'You can not delete this item, because this is used in another place.');
+        }
 
-        Package::where('id',$id)->delete();
+        Package::where('id', $id)->delete();
         return redirect()->route('admin_package')->with('success', 'Data is deleted successfully.');
     }
 }

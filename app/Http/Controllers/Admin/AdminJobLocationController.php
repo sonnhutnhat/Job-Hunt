@@ -31,18 +31,17 @@ class AdminJobLocationController extends Controller
         $obj->save();
 
         return redirect()->route('admin_job_location')->with('success', 'Data is saved successfully.');
-
     }
 
     public function edit($id)
     {
-        $job_location_single = JobLocation::where('id',$id)->first();
-        return view('admin.job_location_edit',compact('job_location_single'));
+        $job_location_single = JobLocation::where('id', $id)->first();
+        return view('admin.job_location_edit', compact('job_location_single'));
     }
 
     public function update(Request $request, $id)
     {
-        $obj = JobLocation::where('id',$id)->first();
+        $obj = JobLocation::where('id', $id)->first();
 
         $request->validate([
             'name' => 'required'
@@ -52,12 +51,16 @@ class AdminJobLocationController extends Controller
         $obj->update();
 
         return redirect()->route('admin_job_location')->with('success', 'Data is updated successfully.');
-
     }
 
     public function delete($id)
     {
-        JobLocation::where('id',$id)->delete();
+        $check = Job::where('job_location_id', $id)->count();
+        if ($check > 0) {
+            return redirect()->back()->with('error', 'You can not delete this item, because this is used in another place.');
+        }
+
+        JobLocation::where('id', $id)->delete();
         return redirect()->route('admin_job_location')->with('success', 'Data is deleted successfully.');
     }
 }

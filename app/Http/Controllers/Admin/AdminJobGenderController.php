@@ -31,18 +31,17 @@ class AdminJobGenderController extends Controller
         $obj->save();
 
         return redirect()->route('admin_job_gender')->with('success', 'Data is saved successfully.');
-
     }
 
     public function edit($id)
     {
-        $job_gender_single = JobGender::where('id',$id)->first();
-        return view('admin.job_gender_edit',compact('job_gender_single'));
+        $job_gender_single = JobGender::where('id', $id)->first();
+        return view('admin.job_gender_edit', compact('job_gender_single'));
     }
 
     public function update(Request $request, $id)
     {
-        $obj = JobGender::where('id',$id)->first();
+        $obj = JobGender::where('id', $id)->first();
 
         $request->validate([
             'name' => 'required'
@@ -52,12 +51,16 @@ class AdminJobGenderController extends Controller
         $obj->update();
 
         return redirect()->route('admin_job_gender')->with('success', 'Data is updated successfully.');
-
     }
 
     public function delete($id)
     {
-        JobGender::where('id',$id)->delete();
+        $check = Job::where('job_gender_id', $id)->count();
+        if ($check > 0) {
+            return redirect()->back()->with('error', 'You can not delete this item, because this is used in another place.');
+        }
+
+        JobGender::where('id', $id)->delete();
         return redirect()->route('admin_job_gender')->with('success', 'Data is deleted successfully.');
     }
 }
