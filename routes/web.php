@@ -49,6 +49,7 @@ use App\Http\Controllers\Admin\AdminSubscriberController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\Candidate\CandidateController;
 use App\Http\Controllers\Admin\AdminSettingController;
+use App\Http\Controllers\Admin\AdminCompanyController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('terms-of-use', [TermsController::class, 'index'])->name('terms');
@@ -348,4 +349,11 @@ Route::middleware(['admin:admin'])->group(function () {
 
     Route::get('/admin/settings', [AdminSettingController::class, 'index'])->name('admin_settings');
     Route::post('/admin/settings/update', [AdminSettingController::class, 'update'])->name('admin_settings_update');
+
+    Route::get('/admin/companies', [AdminCompanyController::class, 'index'])->name('admin_companies');
+    Route::get('/admin/companies-detail/{id}', [AdminCompanyController::class, 'companies_detail'])->name('admin_companies_detail');
+    Route::get('/admin/companies-jobs/{id}', [AdminCompanyController::class, 'companies_jobs'])->name('admin_companies_jobs');
+    Route::get('/admin/companies-applicants/{id}', [AdminCompanyController::class, 'companies_applicants'])->name('admin_companies_applicants');
+    Route::get('/admin/companies-applicant-resume/{id}', [AdminCompanyController::class, 'companies_applicant_resume'])->name('admin_companies_applicant_resume');
+    Route::get('/admin/companies-delete/{id}', [AdminCompanyController::class, 'delete'])->name('admin_companies_delete');
 });
