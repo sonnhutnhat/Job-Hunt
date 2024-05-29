@@ -108,8 +108,15 @@
                 class="{{ Request::is('admin/companies') || Request::is('admin/companies-detail/*') || Request::is('admin/companies-jobs/*') || Request::is('admin/companies-applicants/*') || Request::is('admin/companies-applicant-resume/*') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('admin_companies') }}" data-bs-toggle="tooltip"
                     data-bs-placement="right" data-bs-title="Company Profile"><i class="fas fa-hand-point-right"></i>
-                    <span>Company Profile</span></a></li>
-                    
+                    <span>Company Profile</span></a>
+            </li>
+
+            <li
+                class="{{ Request::is('admin/candidates') || Request::is('admin/candidates-detail/*') || Request::is('admin/candidates-applied-jobs/*') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('admin_candidates') }}" data-bs-toggle="tooltip"
+                    data-bs-placement="right" data-bs-title="Candidate Profile"><i
+                        class="fas fa-hand-point-right"></i> <span>Candidate Profile</span></a></li>
+
             <li class="{{ Request::is('admin/why-choose/*') ? 'active' : '' }}"><a class="nav-link"
                     href="{{ route('admin_why_choose_item') }}" data-bs-toggle="tooltip" data-bs-placement="right"
                     data-bs-title="Why Choose Items"><i class="fas fa-hand-point-right"></i> <span>Why Choose
